@@ -1,0 +1,8 @@
+node_modules
+# build
+dist
+# temp file
+.temp
+.cache
+.DS_Store
+.vscode/tasks.json
