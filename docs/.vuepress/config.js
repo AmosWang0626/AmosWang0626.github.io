@@ -18,7 +18,7 @@ module.exports = {
     logoDark: '/images/logo-dark.png',
     // 其他配置
     editLink: false,
-    repo: 'https://github.com/AmosWang0626/amos_blog',
+    repo: 'https://github.com/AmosWang0626/AmosWang0626.github.io',
     // 导航栏 https://v2.vuepress.vuejs.org/zh/reference/default-theme/config.html#navbar
     navbar: [
       {
@@ -101,6 +101,10 @@ module.exports = {
             {
               text: 'Hexo挂掉自动重启',
               link: '/boutique/front/02.Hexo挂掉自动重启.md'
+            },
+            {
+              text: 'VuePress + Github 自动化部署',
+              link: '/boutique/front/03.VuePress结合Github自动化部署.md'
             }
           ]
         }
