@@ -1,124 +1,126 @@
-const { defaultTheme } = require('vuepress')
-const { searchPlugin } = require('@vuepress/plugin-search')
+const { defaultTheme } = require("vuepress");
+const { searchPlugin } = require("@vuepress/plugin-search");
 
 module.exports = {
-  lang: 'zh-CN',
+  lang: "zh-CN",
   title: "JAVA技术学习笔记",
-  description: 'https://www.eyeo.cn/',
-  head: [['link', { rel: 'icon', href: '/images/favicon.ico' }]],
+  description: "https://www.eyeo.cn/",
+  head: [["link", { rel: "icon", href: "/images/favicon.ico" }]],
   // custom config
-  dest: './dist',
-  public: './asset/public',
+  dest: "./dist",
+  public: "./asset/public",
   port: 8088,
   open: true,
   // theme config
   theme: defaultTheme({
     // Logo 配置
-    logo: '/images/logo.png',
-    logoDark: '/images/logo-dark.png',
+    logo: "/images/logo.png",
+    logoDark: "/images/logo-dark.png",
     // 其他配置
     editLink: false,
-    repo: 'https://github.com/AmosWang0626/AmosWang0626.github.io',
+    repo: "https://github.com/AmosWang0626/AmosWang0626.github.io",
     // 导航栏 https://v2.vuepress.vuejs.org/zh/reference/default-theme/config.html#navbar
     navbar: [
       {
-        text: '首页',
-        link: '/',
+        text: "首页",
+        link: "/",
       },
       {
         // java/spring/mybatis/
-        text: 'Java技术栈',
-        link: '/backend/'
+        text: "Java技术栈",
+        link: "/backend/",
       },
       {
         // linux/docker/nginx/
-        text: 'Ops相关',
-        link: '/ops/'
+        text: "Ops相关",
+        link: "/ops/",
       },
       {
-        text: '杂货铺',
-        link: '/boutique/',
-      }
+        text: "杂货铺",
+        link: "/boutique/",
+      },
     ],
     // 侧边栏, 可为每个URL指定侧边栏 https://v2.vuepress.vuejs.org/zh/reference/default-theme/config.html#sidebar
     sidebar: {
-      '/backend/': [
+      "/backend/": [
         {
-          text: 'Java基础',
+          text: "Java基础",
           children: [
             {
-              text: 'String.matches() 性能测试',
-              link: '/backend/java/base/1-String.matches()性能测试.md'
+              text: "String.matches() 性能测试",
+              link: "/backend/java/base/1-String.matches()性能测试.md",
             },
             {
-              text: '万能的HelloWorld',
-              link: '/backend/java/base/2-万能的HelloWorld.md'
+              text: "万能的HelloWorld",
+              link: "/backend/java/base/2-万能的HelloWorld.md",
             },
-          ]
+          ],
         },
         {
-          text: 'Java并发编程',
+          text: "Java并发编程",
           children: [
             {
-              text: 'Java高效并发',
-              link: '/backend/java/concurrent/1-Java高效并发.md'
-            }
-          ]
+              text: "Java高效并发",
+              link: "/backend/java/concurrent/1-Java高效并发.md",
+            },
+          ],
         },
         {
-          text: '设计模式',
+          text: "设计模式",
           children: [
             {
-              text: '设计模式概述',
-              link: '/backend/design_mode/1-设计模式概述.md'
-            }
-          ]
+              text: "设计模式概述",
+              link: "/backend/design_mode/1-设计模式概述.md",
+            },
+          ],
         },
         {
-          text: 'MySQL',
+          text: "MySQL",
           children: [
             {
-              text: 'MySQL概览',
-              link: '/backend/mysql/1-MySQL概览.md'
-            }
-          ]
+              text: "MySQL概览",
+              link: "/backend/mysql/1-MySQL概览.md",
+            },
+          ],
         },
       ],
-      '/ops/': [
+      "/ops/": [
         {
-          text: 'Ops',
-          link: '/ops/'
-        }
+          text: "Ops",
+          link: "/ops/",
+        },
       ],
-      '/boutique/': [
+      "/boutique/": [
         {
-          text: '前端技术',
+          text: "爱好些许",
           children: [
             {
-              text: '编写可维护的JavaScript',
-              link: '/boutique/front/01.编写可维护的JavaScript.md'
+              text: "Github之旅",
+              link: "/boutique/others/Github之旅.md",
+            },
+          ],
+        },
+        {
+          text: "前端技术",
+          children: [
+            {
+              text: "编写可维护的JavaScript",
+              link: "/boutique/front/01.编写可维护的JavaScript.md",
             },
             {
-              text: 'Hexo挂掉自动重启',
-              link: '/boutique/front/02.Hexo挂掉自动重启.md'
+              text: "Hexo挂掉自动重启",
+              link: "/boutique/front/02.Hexo挂掉自动重启.md",
             },
             {
-              text: 'VuePress + Github 自动化部署',
-              link: '/boutique/front/03.VuePress结合Github自动化部署.md'
-            }
-          ]
-        }
+              text: "VuePress + Github 自动化部署",
+              link: "/boutique/front/03.VuePress结合Github自动化部署.md",
+            },
+          ],
+        },
       ],
     },
-    notFound: [
-      "你访问的页面飞走了～",
-      "页面飞走了～",
-      "您访问的页面飞走了～"
-    ],
+    notFound: ["你访问的页面飞走了～", "页面飞走了～", "您访问的页面飞走了～"],
     backToHome: "回到首页",
   }),
-  plugins: [
-    searchPlugin({
-    })
-  ]
-}
+  plugins: [searchPlugin({})],
+};
