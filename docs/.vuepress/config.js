@@ -1,5 +1,4 @@
 import { defaultTheme } from '@vuepress/theme-default'
-import { searchPlugin } from "@vuepress/plugin-search";
 import { viteBundler } from '@vuepress/bundler-vite'
 import { defineUserConfig } from 'vuepress'
 
@@ -20,11 +19,6 @@ const theme = defaultTheme({
       // java/spring/mybatis/
       text: "Java技术栈",
       link: "/backend/",
-    },
-    {
-      // linux/docker/nginx/
-      text: "Ops相关",
-      link: "/ops/",
     },
     {
       text: "杂货铺",
@@ -126,5 +120,3 @@ export default defineUserConfig({
   port: 8088,
   open: true
 })
-
-export const plugins = [searchPlugin({})];

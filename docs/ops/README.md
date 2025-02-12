@@ -1,3 +1,0 @@
-# Ops
-
-Hello World!
