@@ -1,33 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="generator" content="VuePress 2.0.0-beta.42">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-rc.19" />
     <style>
       :root {
-        --c-bg: #fff;
+        --vp-c-bg: #fff;
       }
-      html.dark {
-        --c-bg: #22272e;
+
+      [data-theme='dark'] {
+        --vp-c-bg: #1b1b1f;
       }
-      html, body {
-        background-color: var(--c-bg);
+
+      html,
+      body {
+        background-color: var(--vp-c-bg);
       }
     </style>
     <script>
-      const userMode = localStorage.getItem('vuepress-color-scheme');
-			const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-			if (userMode === 'dark' || (userMode !== 'light' && systemDarkMode)) {
-				document.documentElement.classList.toggle('dark', true);
-			}
+      const userMode = localStorage.getItem('vuepress-color-scheme')
+      const systemDarkMode =
+        'matchMedia' in window
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          : false
+
+      if (userMode === 'light') {
+        document.documentElement.dataset.theme = 'light'
+      } else if (userMode === 'dark' || systemDarkMode) {
+        document.documentElement.dataset.theme = 'dark'
+      }
     </script>
     <link rel="icon" href="/images/favicon.ico"><title>JAVA技术学习笔记</title><meta name="description" content="https://www.eyeo.cn/">
-    <link rel="modulepreload" href="/assets/app.8b49d1b2.js"><link rel="modulepreload" href="/assets/404.html.7bb92692.js"><link rel="modulepreload" href="/assets/404.html.93146c89.js"><link rel="prefetch" href="/assets/index.html.6fffa26f.js"><link rel="prefetch" href="/assets/index.html.f6bb67ad.js"><link rel="prefetch" href="/assets/index.html.f9f7e19e.js"><link rel="prefetch" href="/assets/index.html.93a2a796.js"><link rel="prefetch" href="/assets/1-设计模式概述.html.38b7b68a.js"><link rel="prefetch" href="/assets/1-MySQL概览.html.bbfc3cc0.js"><link rel="prefetch" href="/assets/01.编写可维护的JavaScript.html.21a33fe0.js"><link rel="prefetch" href="/assets/02.Hexo挂掉自动重启.html.ea34a1a4.js"><link rel="prefetch" href="/assets/03.VuePress结合Github自动化部署.html.c6e9283f.js"><link rel="prefetch" href="/assets/index.html.3ec504eb.js"><link rel="prefetch" href="/assets/Github之旅.html.2929eb5a.js"><link rel="prefetch" href="/assets/1-String.matches()性能测试.html.4d3ede2c.js"><link rel="prefetch" href="/assets/2-万能的HelloWorld.html.7bce4a7c.js"><link rel="prefetch" href="/assets/1-Java高效并发.html.6a5b23f3.js"><link rel="prefetch" href="/assets/index.html.55c5e38c.js"><link rel="prefetch" href="/assets/index.html.c4b9780a.js"><link rel="prefetch" href="/assets/index.html.5ee99d27.js"><link rel="prefetch" href="/assets/index.html.dc05574d.js"><link rel="prefetch" href="/assets/1-设计模式概述.html.2297cd74.js"><link rel="prefetch" href="/assets/1-MySQL概览.html.6b94cb07.js"><link rel="prefetch" href="/assets/01.编写可维护的JavaScript.html.5a61c723.js"><link rel="prefetch" href="/assets/02.Hexo挂掉自动重启.html.bacb725f.js"><link rel="prefetch" href="/assets/03.VuePress结合Github自动化部署.html.021153b3.js"><link rel="prefetch" href="/assets/index.html.d535d64e.js"><link rel="prefetch" href="/assets/Github之旅.html.cbb7c782.js"><link rel="prefetch" href="/assets/1-String.matches()性能测试.html.119b63b9.js"><link rel="prefetch" href="/assets/2-万能的HelloWorld.html.9d4815ef.js"><link rel="prefetch" href="/assets/1-Java高效并发.html.9be3828b.js"><link rel="prefetch" href="/assets/404.fd3b8a30.js"><link rel="prefetch" href="/assets/Layout.ae710700.js">
-    <link rel="stylesheet" href="/assets/style.74d78db3.css">
+    <link rel="preload" href="/assets/style-BioksKYN.css" as="style"><link rel="stylesheet" href="/assets/style-BioksKYN.css">
+    <link rel="modulepreload" href="/assets/app-DX-8M_Q1.js"><link rel="modulepreload" href="/assets/404.html-DIBP2exV.js">
+    <link rel="prefetch" href="/assets/index.html-CjnqqdCk.js" as="script"><link rel="prefetch" href="/assets/index.html-BzIVB0tw.js" as="script"><link rel="prefetch" href="/assets/index.html-VnzS0fkj.js" as="script"><link rel="prefetch" href="/assets/Github之旅.html-B_jITiXF.js" as="script"><link rel="prefetch" href="/assets/01.编写可维护的JavaScript.html-CZ6yL7Ra.js" as="script"><link rel="prefetch" href="/assets/02.Hexo挂掉自动重启.html-DCq1iwz2.js" as="script"><link rel="prefetch" href="/assets/03.VuePress结合Github自动化部署.html-BhIAn2Kk.js" as="script"><link rel="prefetch" href="/assets/index.html-D7eEe_j6.js" as="script"><link rel="prefetch" href="/assets/1-设计模式概述.html-DGCBIdOY.js" as="script"><link rel="prefetch" href="/assets/1-MySQL概览.html-B7zB_PRj.js" as="script"><link rel="prefetch" href="/assets/1-String.matches()性能测试.html-CNwd_IQ-.js" as="script"><link rel="prefetch" href="/assets/2-万能的HelloWorld.html-RGoLkAkV.js" as="script"><link rel="prefetch" href="/assets/1-Java高效并发.html-CFJNjkgm.js" as="script"><link rel="prefetch" href="/assets/setupDevtools-7MC2TMWH-DI9AP5U-.js" as="script">
   </head>
   <body>
-    <div id="app"><!--[--><div class="theme-container"><div class="theme-default-content"><h1>404</h1><blockquote>页面飞走了～</blockquote><a href="/" class="">回到首页</a></div></div><!----><!--]--></div>
-    <script type="module" src="/assets/app.8b49d1b2.js" defer></script>
+    <div id="app"><!--[--><div class="vp-theme-container" vp-container data-v-8636ca9b><main class="page" data-v-8636ca9b><div vp-content data-v-8636ca9b><h1 data-v-8636ca9b>404</h1><blockquote data-v-8636ca9b>您访问的页面飞走了～</blockquote><a class="route-link" href="/" data-v-8636ca9b>回到首页</a></div></main></div><!--[--><!----><!--]--><!--]--></div>
+    <script type="module" src="/assets/app-DX-8M_Q1.js" defer></script>
   </body>
 </html>
