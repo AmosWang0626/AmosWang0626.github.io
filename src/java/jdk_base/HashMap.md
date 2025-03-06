@@ -2,15 +2,34 @@
 title: HashMap源码解析
 index: true
 icon: laptop-code
+date: 2025-03-07
 category:
   - JDK基础源码
 ---
 
+## 概述
 
-HashMap 是 Java 中最常用的数据结构之一，基于哈希表实现，提供了高效的键值对存储和查找功能。以下是对其源码的详细分析：
+HashMap 是基于数组 + 链表/红黑树实现的，支持自动扩容。
 
-## 1. 核心数据结构
-HashMap 的核心是一个 Node<K,V>[] table 数组，每个数组元素是一个链表或红黑树的头节点。
+优点：高效的查找/插入(平均O(1)，最差O(n))、动态扩容、支持null键和null值	
+
+缺点：哈希冲突可能影响性能、线程不安全、内存占用较高
+
+适合的场景：适合单线程高频查询场景
+
+是否线程安全：HashMap是线程不安全的，如果需要线程安全，推荐使用 ConcurrentHashMap。用 Collections synchronizedMap() 也可以实现线程安全。
+
+## 源码解析
+
+### 核心数据结构
+
+> 本文结合 JDK 17 的源码展开，与 JDK 1.7 及之前的版本有差异（数组+链表实现，同时有头插法有死循环的风险）
+
+HashMap 默认以 Node<K,V>[] table 数组存储数据，每个桶（bucket）是链表或红黑树。
+
+- 链表长度超过 8 且数组容量 ≥ 64 时，链表转为红黑树（时间复杂度优化为 O(log n)）。
+
+- 红黑树节点数 ≤ 6 时退化为链表。
 
 ### 1.1 Node 类
 用于存储键值对，是 HashMap 的基本单元。
@@ -48,18 +67,47 @@ static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
 
 ## 2. 核心参数
 
-```
-DEFAULT_INITIAL_CAPACITY = 16：默认初始容量。
+```java
+public class HashMap<K, V> extends AbstractMap<K, V>
+        implements Map<K, V>, Cloneable, Serializable {
 
-MAXIMUM_CAPACITY = 1 << 30：最大容量。
+    /* 默认初始化容量 16 - 必须是两个倍数。 */
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
-DEFAULT_LOAD_FACTOR = 0.75f：默认负载因子。
+    /* 最大容量 1073741824 Integer.MAX_VALUE 的一半  */
+    static final int MAXIMUM_CAPACITY = 1 << 30;
 
-TREEIFY_THRESHOLD = 8：链表转红黑树的阈值。
+    /* 默认负载因子 */
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
-UNTREEIFY_THRESHOLD = 6：红黑树转链表的阈值。
+    /* 树化阈值（链表 to 红黑树） */
+    static final int TREEIFY_THRESHOLD = 8;
 
-MIN_TREEIFY_CAPACITY = 64：链表转红黑树的最小容量。
+    /* 取消树化阈值（红黑树 to 链表） */
+    static final int UNTREEIFY_THRESHOLD = 6;
+
+    /* 如果容量小于 64，链表是不会转为红黑树的 */
+    static final int MIN_TREEIFY_CAPACITY = 64;
+
+    /** 核心数组 */
+    transient Node<K,V>[] table;
+
+    /** entrySet() 结果的缓存 */
+    transient Set<Map.Entry<K,V>> entrySet;
+
+    /** HashMap中元素数量 */
+    transient int size;
+
+    /** 避免并发修改等，出现并发读写会抛异常 ConcurrentModificationException */
+    transient int modCount;
+
+    /** 当前阈值 */
+    int threshold;
+
+    /** 当前负载因子 */
+    final float loadFactor;
+
+}
 ```
 
 ## 3. 核心方法
@@ -254,22 +302,3 @@ final Node<K,V> getNode(int hash, Object key) {
     return null;
 }
 ```
-
-## 4. 性能与优化
-
-时间复杂度：
-
-查找、插入、删除：平均 O(1)，最坏 O(log n)（红黑树）。
-
-优化点：
-
-预分配容量，减少扩容次数。
-
-使用高效的哈希函数，减少冲突。
-
-## 5. 线程安全问题
-HashMap 不是线程安全的。多线程环境下，可以使用 Collections.synchronizedMap 或 ConcurrentHashMap。
-
-## 总结
-
-HashMap 通过哈希表、链表和红黑树的结合，实现了高效的键值对存储和查找。理解其源码有助于优化使用场景，如预分配容量、选择合适的哈希函数等。
