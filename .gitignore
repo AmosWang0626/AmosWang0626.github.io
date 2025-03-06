@@ -1,8 +1,6 @@
-node_modules
-# build
-dist
-# temp file
-.temp
-.cache
+.idea
+node_modules/
+src/.vuepress/.cache/
+src/.vuepress/.temp/
+src/.vuepress/dist/
 .DS_Store
-.vscode/tasks.json

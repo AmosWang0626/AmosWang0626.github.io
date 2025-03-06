@@ -1,21 +1,20 @@
 {
-  "name": "amos_blog",
-  "version": "1.0.0",
-  "description": "amos blog",
-  "main": "index.js",
-  "author": "amos.wang",
+  "name": "blog",
+  "description": "Amos Java Blog",
+  "version": "2.0.0",
   "license": "MIT",
-  "private": false,
+  "type": "module",
   "scripts": {
-    "dev": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "build": "vuepress-vite build src",
+    "clean-dev": "vuepress-vite dev src --clean-cache",
+    "dev": "vuepress-vite dev src",
+    "update": "pnpm dlx vp-update"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vuepress/bundler-vite": "^2.0.0-rc.19",
-    "@vuepress/theme-default": "^2.0.0-rc.76",
-    "sass-embedded": "^1.83.4",
+    "@vuepress/bundler-vite": "2.0.0-rc.20",
+    "sass-embedded": "^1.85.1",
     "vue": "^3.5.13",
-    "vuepress": "^2.0.0-rc.19"
+    "vuepress": "2.0.0-rc.20",
+    "vuepress-theme-hope": "2.0.0-rc.73"
   }
 }
