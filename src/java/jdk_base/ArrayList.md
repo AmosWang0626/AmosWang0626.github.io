@@ -2,6 +2,7 @@
 title: ArrayList源码解析
 index: true
 icon: laptop-code
+date: 2025-03-05
 category:
   - JDK基础源码
 ---
