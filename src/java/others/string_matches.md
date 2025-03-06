@@ -3,7 +3,7 @@ title: 字符串正则匹配性能对比
 index: true
 icon: laptop-code
 category:
-  - Java基础
+  - Java技术
 ---
 
 > 测试机：Mac Pro 16GB; 2.6GHz 六核 Intel Core i7

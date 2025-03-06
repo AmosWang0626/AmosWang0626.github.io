@@ -2,7 +2,7 @@
 title: Java 高效并发
 date: 2020-05-16
 category:
-  - 并发编程
+  - JDK并发编程
 ---
 
 # Java 高效并发

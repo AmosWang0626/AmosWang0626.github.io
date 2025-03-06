@@ -1,9 +1,9 @@
 ---
-title: 前端技术
+title: 前端相关
 index: false
 icon: laptop-code
 category:
-  - 前端技术
+  - 前端相关
 ---
 
 <Catalog />

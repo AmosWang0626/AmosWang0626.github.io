@@ -3,7 +3,7 @@ title: 布局
 icon: object-group
 order: 2
 category:
-  - 指南
+  - 使用指南
 tag:
   - 布局
 ---
