@@ -21,9 +21,9 @@ HashMap 是基于数组 + 链表/红黑树实现的，支持自动扩容。
 
 ## 源码解析
 
-### 核心数据结构
+### 1. 核心数据结构
 
-> 本文结合 JDK 17 的源码展开，与 JDK 1.7 及之前的版本有差异（数组+链表实现，同时有头插法有死循环的风险）
+> 本文结合 JDK 17 的源码展开，与 JDK 1.8 之前的版本有差异（数组+链表实现，同时有头插法有死循环的风险）
 
 HashMap 默认以 Node<K,V>[] table 数组存储数据，每个桶（bucket）是链表或红黑树。
 
@@ -112,8 +112,45 @@ public class HashMap<K, V> extends AbstractMap<K, V>
 
 ## 3. 核心方法
 
-### 3.1 哈希计算
+### 3.1 构造方法
+
+```java
+// 无参构造方法，初始化时不会扩容
+public HashMap() {
+    this.loadFactor = DEFAULT_LOAD_FACTOR; // 负载因子默认为 0.75
+}
+
+// 指定容量 capacity，也就是数组的长度
+public HashMap(int initialCapacity) {
+    this(initialCapacity, DEFAULT_LOAD_FACTOR);
+}
+
+// 指定容量、负载因子
+public HashMap(int initialCapacity, float loadFactor) {
+    if (initialCapacity < 0)
+        throw new IllegalArgumentException("Illegal initial capacity: " +
+                                            initialCapacity);
+    if (initialCapacity > MAXIMUM_CAPACITY)
+        initialCapacity = MAXIMUM_CAPACITY;
+    if (loadFactor <= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException("Illegal load factor: " +
+                                            loadFactor);
+    this.loadFactor = loadFactor;
+    this.threshold = tableSizeFor(initialCapacity);
+}
+
+// 根据其他 Map 对象初始化
+public HashMap(Map<? extends K, ? extends V> m) {
+    this.loadFactor = DEFAULT_LOAD_FACTOR;
+    putMapEntries(m, false);
+}
+```
+
+### 3.2 哈希计算
+
 HashMap 使用 key.hashCode() 计算哈希值，并通过扰动函数减少哈希冲突。
+
+高 16 位与低 16 位异或，让低16位同时保持高16位的特征，增加哈希值的随机性。
 
 ```java
 static final int hash(Object key) {
@@ -122,25 +159,23 @@ static final int hash(Object key) {
 }
 ```
 
-高 16 位与低 16 位异或，增加哈希值的随机性。
-
-### 3.2 插入元素（put）
+### 3.3 插入元素（put）
 
 插入逻辑：
 
-计算键的哈希值。
+- 计算键的哈希值。
 
-根据哈希值找到数组索引。
+- 根据哈希值找到数组索引。
 
-如果该位置为空，直接插入。
+- 如果该位置为空，直接插入。
 
-如果该位置不为空，遍历链表或红黑树：
+- 如果该位置不为空，遍历链表或红黑树：
 
-如果找到相同键，更新值。
+- 如果找到相同键，更新值。
 
-如果未找到，插入新节点。
+- 如果未找到，插入新节点。
 
-检查是否需要扩容。
+- 检查是否需要扩容。
 
 ```java
 public V put(K key, V value) {
@@ -186,15 +221,15 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 }
 ```
 
-### 3.3 扩容（resize）
+### 3.4 扩容（resize）
 
 当元素数量超过 容量 * 负载因子 时，触发扩容。
 
 扩容逻辑：
 
-创建新数组（容量为原来的 2 倍）。
+- 创建新数组（容量为原来的 2 倍）。
 
-将旧数组中的元素重新分配到新数组。
+- 将旧数组中的元素重新分配到新数组。
 
 ```java
 final Node<K,V>[] resize() {
@@ -269,14 +304,15 @@ final Node<K,V>[] resize() {
 }
 ```
 
-### 3.4 查找元素（get）
+### 3.5 查找元素（get）
+
 查找逻辑：
 
-计算键的哈希值。
+- 计算键的哈希值。
 
-根据哈希值找到数组索引。
+- 根据哈希值找到数组索引。
 
-遍历链表或红黑树，查找目标键。
+- 遍历链表或红黑树，查找目标键。
 
 ```java
 public V get(Object key) {

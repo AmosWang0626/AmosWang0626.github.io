@@ -24,7 +24,7 @@ ArrayList 是基于数组实现的动态列表，支持自动扩容。
 
 > 本文结合 JDK 17 的源码展开，与其他版本相比变化不大。
 
-### 构造方法
+### 1. 构造方法
 
 ```java
 // 指定初始化容量，推荐使用。
@@ -63,7 +63,7 @@ public ArrayList(Collection<? extends E> c) {
 }
 ```
 
-### 添加元素
+### 2. 添加元素
 
 ```java
 public boolean add(E e) {
@@ -97,7 +97,7 @@ public void add(int index, E element) {
 }
 ```
 
-### 扩容
+### 3. 扩容
 
 ```java
 private Object[] grow() {
@@ -132,7 +132,7 @@ public static <T,U> T[] copyOf(U[] original, int newLength, Class<? extends T[]>
 
 ```
 
-### 删除
+### 4. 删除
 
 ```java
 // 删除指定 index 元素
@@ -179,14 +179,14 @@ private void fastRemove(Object[] es, int i) {
 }
 ```
 
-### 迭代器
+### 5. 迭代器
 
 ArrayList 内部有两个迭代器
 
 - iterator()：简单、轻量，适合单向遍历和删除。
 - listIterator()：功能强大，支持双向遍历、修改、添加，适合复杂操作。
 
-#### 迭代器1：iterator()
+#### 5.1 迭代器1：iterator()
 
 ```java
 // 通过游标的移动，实现数据的遍历。
@@ -256,7 +256,7 @@ private class Itr implements Iterator<E> {
 }
 ```
 
-#### 迭代器2：listIterator()
+#### 5.2 迭代器2：listIterator()
 
 ```java
 public ListIterator<E> listIterator() {
