@@ -23,7 +23,7 @@ HashMap 是基于数组 + 链表/红黑树实现的，支持自动扩容。
 
 ### 1. 核心数据结构
 
-> 本文结合 JDK 17 的源码展开，与 JDK 1.8 之前的版本有差异（数组+链表实现，同时有头插法有死循环的风险）
+> 本文结合 JDK 17 的源码展开，与 JDK 1.8 之前的版本有差异（数组+链表实现，同时头插法并发操作有死循环的风险）
 
 HashMap 默认以 Node<K,V>[] table 数组存储数据，每个桶（bucket）是链表或红黑树。
 
@@ -71,7 +71,7 @@ static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
 public class HashMap<K, V> extends AbstractMap<K, V>
         implements Map<K, V>, Cloneable, Serializable {
 
-    /* 默认初始化容量 16 - 必须是两个倍数。 */
+    /* 默认初始化容量 16，也即数组的长度 - 必须是两个倍数。 */
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
     /* 最大容量 1073741824 Integer.MAX_VALUE 的一半  */
@@ -101,7 +101,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
     /** 避免并发修改等，出现并发读写会抛异常 ConcurrentModificationException */
     transient int modCount;
 
-    /** 当前阈值 */
+    /** 当前阈值，达到阈值会触发扩容 */
     int threshold;
 
     /** 当前负载因子 */
@@ -185,7 +185,7 @@ public V put(K key, V value) {
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
     Node<K,V>[] tab; Node<K,V> p; int n, i;
     if ((tab = table) == null || (n = tab.length) == 0)
-        n = (tab = resize()).length; // 初始化或扩容
+        n = (tab = resize()).length; // 初始化并扩容
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null); // 直接插入
     else {
@@ -216,7 +216,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
     }
     ++modCount;
     if (++size > threshold)
-        resize(); // 扩容
+        resize(); // put完，就会触发扩容
     return null;
 }
 ```
@@ -234,21 +234,21 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 ```java
 final Node<K,V>[] resize() {
     Node<K,V>[] oldTab = table;
-    int oldCap = (oldTab == null) ? 0 : oldTab.length;
-    int oldThr = threshold;
+    int oldCap = (oldTab == null) ? 0 : oldTab.length; // 旧容量，数组长度
+    int oldThr = threshold; // 旧阈值
     int newCap, newThr = 0;
     if (oldCap > 0) {
         if (oldCap >= MAXIMUM_CAPACITY) {
             threshold = Integer.MAX_VALUE;
             return oldTab;
         }
-        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+        else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY && // 新容量=旧容量*2
                  oldCap >= DEFAULT_INITIAL_CAPACITY)
-            newThr = oldThr << 1; // 双倍扩容
+            newThr = oldThr << 1; // 新阈值=旧阈值*2
     }
-    else if (oldThr > 0)
+    else if (oldThr > 0) // oldCap = 0 && oldThr > 0，可能只有remove之后会遇到
         newCap = oldThr;
-    else {
+    else { // 初始化逻辑
         newCap = DEFAULT_INITIAL_CAPACITY;
         newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
     }
@@ -258,7 +258,7 @@ final Node<K,V>[] resize() {
                   (int)ft : Integer.MAX_VALUE);
     }
     threshold = newThr;
-    Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+    Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap]; // 扩容
     table = newTab;
     if (oldTab != null) {
         for (int j = 0; j < oldCap; ++j) {
@@ -267,26 +267,26 @@ final Node<K,V>[] resize() {
                 oldTab[j] = null;
                 if (e.next == null)
                     newTab[e.hash & (newCap - 1)] = e;
-                else if (e instanceof TreeNode)
+                else if (e instanceof TreeNode) // 红黑树扩容
+                    // 扩容后，红黑树类似链表的处理，也是拆成两个。还会判断要不要转成链表
                     ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                else {
+                else { // 链表扩容
                     Node<K,V> loHead = null, loTail = null;
                     Node<K,V> hiHead = null, hiTail = null;
                     Node<K,V> next;
                     do {
                         next = e.next;
-                        if ((e.hash & oldCap) == 0) {
+                        if ((e.hash & oldCap) == 0) { // 因为每次扩容都是前一次的2倍，通过高位与运算0/1判断节点放高位还是低位，避免rehash，提高性能
                             if (loTail == null)
                                 loHead = e;
                             else
-                                loTail.next = e;
+                                loTail.next = e; // 尾插法
                             loTail = e;
-                        }
-                        else {
+                        } else {
                             if (hiTail == null)
                                 hiHead = e;
                             else
-                                hiTail.next = e;
+                                hiTail.next = e; // // 尾插法
                             hiTail = e;
                         }
                     } while ((e = next) != null);
@@ -323,7 +323,7 @@ public V get(Object key) {
 final Node<K,V> getNode(int hash, Object key) {
     Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
     if ((tab = table) != null && (n = tab.length) > 0 &&
-        (first = tab[(n - 1) & hash]) != null) {
+        (first = tab[(n - 1) & hash]) != null) { // 根据hash定位数组中的位置，且该位置不为空
         if (first.hash == hash && ((k = first.key) == key || (key != null && key.equals(k))))
             return first;
         if ((e = first.next) != null) {
@@ -336,5 +336,41 @@ final Node<K,V> getNode(int hash, Object key) {
         }
     }
     return null;
+}
+```
+
+### 3.6 数组长度计算(始终为2的倍数)
+
+```java
+// JDK 17，通过使用 Integer.numberOfLeadingZeros 减少了多次位移运算。
+// Integer.numberOfLeadingZeros 本身可能被JVM优化，如果不优化就用自身的逻辑。
+static final int tableSizeFor(int cap) {
+    int n = -1 >>> Integer.numberOfLeadingZeros(cap - 1);
+    return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
+
+// JDK 8 的实现，通过位移运算，将最高位以下都覆盖为1，最后+1来实现size始终为2的倍数
+static final int tableSizeFor(int cap) {
+    int n = cap - 1;
+    n |= n >>> 1;
+    n |= n >>> 2;
+    n |= n >>> 4;
+    n |= n >>> 8;
+    n |= n >>> 16;
+    return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
+
+// Integer.numberOfLeadingZeros(int) 计算最高位前边有多少个0
+@IntrinsicCandidate // 该注解意味着JVM在执行字节码时可能会用特定于硬件或特别优化的代码来替换该方法的实现，以提高性能。
+public static int numberOfLeadingZeros(int i) {
+    // HD, Count leading 0's
+    if (i <= 0)
+        return i == 0 ? 32 : 0;
+    int n = 31;
+    if (i >= 1 << 16) { n -= 16; i >>>= 16; }
+    if (i >= 1 <<  8) { n -=  8; i >>>=  8; }
+    if (i >= 1 <<  4) { n -=  4; i >>>=  4; }
+    if (i >= 1 <<  2) { n -=  2; i >>>=  2; }
+    return n - (i >>> 1);
 }
 ```
