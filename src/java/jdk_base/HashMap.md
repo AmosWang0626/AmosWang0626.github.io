@@ -5,6 +5,7 @@ icon: laptop-code
 date: 2025-03-07
 category:
   - JDK基础源码
+order: 2
 ---
 
 ## 概述
@@ -21,7 +22,7 @@ HashMap 是基于数组 + 链表/红黑树实现的，支持自动扩容。
 
 ## 源码解析
 
-### 1. 核心数据结构
+## 1. 核心数据结构
 
 > 本文结合 JDK 17 的源码展开，与 JDK 1.8 之前的版本有差异（数组+链表实现，同时头插法并发操作有死循环的风险）
 
@@ -374,3 +375,82 @@ public static int numberOfLeadingZeros(int i) {
     return n - (i >>> 1);
 }
 ```
+
+## 4. 常见问题
+
+### 4.1 JDK 1.8 并发扩容时的环形链表形成
+
+**1. 链表头插法**
+
+JDK 1.7 的 `HashMap` 在扩容时，使用**头插法**将旧链表的元素迁移到新链表：
+```java
+void transfer(Entry[] newTable) {
+    for (Entry<K,V> e : table) {
+        while (e != null) {
+            Entry<K,V> next = e.next;
+            int newIndex = hash(e.key) & (newCapacity - 1);
+            e.next = newTable[newIndex]; // 头插法
+            newTable[newIndex] = e;
+            e = next;
+        }
+    }
+}
+```
+
+**2. 并发扩容时的环形链表形成**
+
+假设两个线程（Thread A 和 Thread B）同时触发扩容，且旧链表结构为 `A -> B -> null`：
+- **初始状态**：
+  - Thread A 和 B 均开始迁移链表。
+  - 线程挂起时可能保存中间状态（如 `e` 和 `next` 的引用）。
+
+- **操作时序**：
+  1. **Thread A** 执行到 `Entry<K,V> next = e.next`，此时 `e = A`，`next = B`。
+  2. **Thread A 挂起**，**Thread B** 完成整个链表的迁移：
+     - B 迁移后的新链表为 `B -> A -> null`（头插法导致反转）。
+  3. **Thread A 恢复执行**，继续迁移：
+     - 此时 `e = A`，`next = B`（但旧链表已被 Thread B 修改）。
+     - `A.next = newTable[newIndex]`（新表当前为 `B`），导致 `A -> B`。
+     - `newTable[newIndex] = A`，新表变为 `A -> B`。
+     - `e = next = B`，继续迁移 `B`。
+     - `B.next = newTable[newIndex]`（此时新表为 `A`），导致 `B -> A`。
+     - 最终新链表形成环形结构 `A -> B -> A`。
+
+**3. 死循环触发**
+当其他线程调用 `get()` 方法遍历链表时，若遇到环形结构，会陷入无限循环：
+```java
+// JDK 1.7 的 get 方法
+public V get(Object key) {
+    Entry<K,V> e = getEntry(key);
+    // 遍历链表时若存在环，永远无法退出循环
+    while (e != null) {
+        if (e.hash == hash && eq(key, e.key)) return e.value;
+        e = e.next;
+    }
+    return null;
+}
+```
+
+就以上边 `A -> B -> A` 的例子：
+
+- **查找键 `A`**：  
+  - `get(A)` 遍历链表时，首节点即为 `A`，直接匹配成功并返回，**不会触发死循环**。  
+  - 遍历路径：`A`（命中，结束）。
+
+- **查找键 `B`**：  
+  - `get(B)` 遍历首节点 `A`（未命中），继续到下一节点 `B`（命中），返回结果，**不会死循环**。  
+  - 遍历路径：`A → B`（命中，结束）。
+
+- **查找不存在的键 `C`**：  
+  - `get(C)` 遍历首节点 `A`（未命中）→ 下一节点 `B`（未命中）→ 下一节点 `A` → `B` → `A` → ...  
+  - 由于链表无终止符 `null`，遍历会无限循环，**触发死循环**。
+
+**解决办法：**
+
+在多线程场景下，应使用以下线程安全的容器替代 `HashMap`：
+1. **`ConcurrentHashMap`**  
+   分段锁（JDK 1.7）或 CAS + synchronized（JDK 1.8+）保证线程安全。
+2. **`Collections.synchronizedMap`**  
+   通过全局锁包装 `HashMap`，但性能较低。
+
+---

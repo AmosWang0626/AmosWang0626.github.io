@@ -1,12 +1,11 @@
 ---
 title: 编写可维护的JavaScript
+icon: file
 date: 2020-08-08
 category:
   - 前端相关
 ---
 
-
-# 编写可维护的JavaScript
 
 > 忍无可忍，必须改变，去写看着舒服的代码，而非云云。。。
 

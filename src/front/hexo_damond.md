@@ -1,5 +1,6 @@
 ---
-title: Hexo挂掉自动重启 
+title: Hexo挂掉自动重启
+icon: object-group
 date: 2020-11-17
 categories: 前端相关
 tags:

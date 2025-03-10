@@ -1,5 +1,6 @@
 ---
-title: VuePress + Github 自动化部署
+title: VuePress + Github Action
+icon: gears
 date: 2023-06-10
 categories: 前端相关
 tags:
@@ -7,9 +8,8 @@ tags:
 - Github
 ---
 
-# VuePress + Github 自动化部署
 
-本文着重讲 GitHub 部署，创建 VuePress 官方文档比较详细，就不说啦。
+本文着重讲 GitHub 自动化部署，创建 VuePress 官方文档比较详细，就不说啦。
 
 ## 创建VuePress项目
 

@@ -4,5 +4,5 @@ export default navbar([
   "/",
   "/java/",
   "/front/",
-  // "/demo/",
+  "intro"
 ]);
