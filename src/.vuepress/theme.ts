@@ -24,7 +24,7 @@ export default hopeTheme({
   sidebar,
 
   // 页脚
-  footer: "默认页脚",
+  footer: '<a href="http://beian.miit.gov.cn/" target="_blank">豫ICP备2023001668号-2</a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=41138102000250" target="_blank"><img src="https://iamos.oss-cn-shanghai.aliyuncs.com/blog/beian_logo.png" style="margin:0 2px -3px 15px"/>豫公网安备 41138102000250号</a>',
   displayFooter: true,
 
   // 博客相关
