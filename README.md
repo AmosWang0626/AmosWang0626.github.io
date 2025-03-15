@@ -9,11 +9,8 @@
 ### 本地运行
 
 ```shell
-# 启动开发服务器
+# 启动开发服务器 (默认清除缓存)
 pnpm dev
-
-# 清除缓存并启动开发服务器
-pnpm docs:clean-dev
 
 # 构建项目并输出
 pnpm build
