@@ -1,5 +1,5 @@
 ---
-title: Stack与Deque的区别，为什么推荐使用Deque？
+title: Stack与Deque的区别？
 index: true
 icon: laptop-code
 date: 2025-03-10
@@ -7,6 +7,8 @@ category:
   - JDK基础源码
 order: 3
 ---
+
+### Stack与Deque的区别，以及为什么推荐使用Deque？
 
 ### 概述
 
