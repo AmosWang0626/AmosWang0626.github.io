@@ -8,7 +8,7 @@ category:
 order: 6
 ---
 
-## **概述**
+## 概述
 
 `ConcurrentHashMap` 是 Java 并发编程中最重要的数据结构之一，其通过 **CAS + synchronized 锁细化** 和 **多线程协同扩容** 实现了高效的线程安全。
 

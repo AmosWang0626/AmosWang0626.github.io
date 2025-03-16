@@ -8,6 +8,8 @@ category:
 order: 7
 ---
 
+## 概述
+
 **TreeMap** 是 Java 中基于 **红黑树（Red-Black Tree）** 实现的有序映射，支持自定义的排序规则。
 
 不得不提，TreeMap 的代码读起来，既精简又优雅，很适合学习红黑树。
