@@ -370,3 +370,26 @@ Java 天生支持先行发生原则，具体原则如下。如果两个操作之
 
     与此同时，**`lock addl$0x0,(%esp)`指令把修改同步到内存时，意味着所有之前的操作都已经执行完成，这样便形成了“指令重排序无法越过内存屏障”的效果。**
 
+4. volatile 的内存屏障深究
+
+**volatile的写操作**
+
+写操作前插入 StoreStore 屏障
+- 确保所有普通写（非 volatile）在 volatile 写之前完成，即先将本地修改刷新到主内存，再执行 volatile 写。
+
+写操作后插入 StoreLoad 屏障
+- 禁止后续的读写操作重排序到 volatile 写之前，并强制将 volatile 写的结果同步到所有线程的缓存。
+
+**volatile的读操作**
+
+读操作后插入 LoadLoad 和 LoadStore 屏障
+- LoadLoad 屏障：禁止后续的读操作重排序到当前 volatile 读之前。
+- LoadStore 屏障：禁止后续的写操作重排序到当前 volatile 读之前。
+
+**上边的还是规范层面，具体底层实现有差异**
+
+- x86 架构：由于 x86 的强内存模型（TSO, Total Store Order），某些屏障可能被省略。例如：
+  - volatile 写操作仅需 StoreLoad 屏障（通过 LOCK 前缀指令隐式实现）。
+  - volatile 读操作无需显式屏障（x86 的 Load 操作天然具有 LoadLoad 和 LoadStore 语义）。
+
+- ARM 架构： ARM是弱内存模型，需严格插入所有屏障指令（如 DMB），确保跨平台一致性。
