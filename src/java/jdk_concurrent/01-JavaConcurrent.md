@@ -11,7 +11,7 @@ order: 1
 2. 并发带来的问题
 3. 这些问题如何解决
 
-JDK 提供了诸多解决方案，请参考后续文章。
+文末附 synchronized、volatile 关键字解析，其他并发包下内容，请参考后续文章。
 
 ## 1. 并发有什么好处
 
@@ -178,6 +178,10 @@ Java Memory Model，简称 JMM。它是 Java 多线程环境下访问内存的�
 对照下图，是不是很熟悉？线程隔离数据区、线程共享数据区。
 
 ![Java 运行时数据区](../assets/concurrent/jvm-runtime-data-area.png)
+
+以一个变量读写为例，看看这块的流程。
+
+![多线程共享 count ++](../assets/concurrent/count_incr.png)
 
 **2. 原子性、可见性与有序性**
 
