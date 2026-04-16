@@ -19,15 +19,15 @@ order: 6
 ### **1. 节点类（Entry）**
 
 ```java
-static final class Entry<K,V> implements Map.Entry<K,V> {
+static final class Entry`<K,V>` implements Map.Entry`<K,V>` {
     K key;                 // 键
     V value;               // 值
-    Entry<K,V> left;       // 左子节点
-    Entry<K,V> right;      // 右子节点
-    Entry<K,V> parent;     // 父节点
+    Entry`<K,V>` left;       // 左子节点
+    Entry`<K,V>` right;      // 右子节点
+    Entry`<K,V>` parent;     // 父节点
     boolean color = BLACK; // 颜色标记（默认黑色）
 
-    Entry(K key, V value, Entry<K,V> parent) {
+    Entry(K key, V value, Entry`<K,V>` parent) {
         this.key = key;
         this.value = value;
         this.parent = parent;
@@ -54,20 +54,20 @@ public V put(K key, V value) {
 }
 
 private V put(K key, V value, boolean replaceOld) {
-    Entry<K,V> t = root;
+    Entry`<K,V>` t = root;
     if (t == null) { // 直接写根节点
         addEntryToEmptyMap(key, value);
         return null;
     }
     int cmp;
-    Entry<K,V> parent;
+    Entry`<K,V>` parent;
     // ...省略一大段 if else，查找插入位置逻辑
     addEntry(key, value, parent, cmp < 0); // 基于排序放左子树，或者右子树
     return null;
 }
 
-private void addEntry(K key, V value, Entry<K, V> parent, boolean addToLeft) {
-    Entry<K,V> e = new Entry<>(key, value, parent);
+private void addEntry(K key, V value, Entry`<K, V>` parent, boolean addToLeft) {
+    Entry`<K,V>` e = new Entry<>(key, value, parent);
     if (addToLeft)
         parent.left = e;
     else
@@ -82,11 +82,11 @@ private void addEntry(K key, V value, Entry<K, V> parent, boolean addToLeft) {
 新版 JDK 通过 **工具方法** 简化颜色操作：
 
 ```java
-private void fixAfterInsertion(Entry<K,V> x) {
+private void fixAfterInsertion(Entry`<K,V>` x) {
     x.color = RED; // 新节点初始为红色
     while (x != null && x != root && x.parent.color == RED) {
         if (parentOf(x) == leftOf(parentOf(parentOf(x)))) {
-            Entry<K,V> y = rightOf(parentOf(parentOf(x))); // 叔节点
+            Entry`<K,V>` y = rightOf(parentOf(parentOf(x))); // 叔节点
             if (colorOf(y) == RED) { // 叔节点为红
                 setColor(parentOf(x), BLACK);
                 setColor(y, BLACK);
@@ -104,28 +104,28 @@ private void fixAfterInsertion(Entry<K,V> x) {
 ```
 
 - **工具方法**：  
-    ```java
-    private static <K,V> boolean colorOf(Entry<K,V> p) {
+```java
+    private static `<K,V>` boolean colorOf(Entry`<K,V>` p) {
         return (p == null ? BLACK : p.color);
     }
 
-    private static <K,V> Entry<K,V> parentOf(Entry<K,V> p) {
+    private static `<K,V>` Entry`<K,V>` parentOf(Entry`<K,V>` p) {
         return (p == null ? null: p.parent);
     }
 
-    private static <K,V> void setColor(Entry<K,V> p, boolean c) {
+    private static `<K,V>` void setColor(Entry`<K,V>` p, boolean c) {
         if (p != null)
             p.color = c;
     }
 
-    private static <K,V> Entry<K,V> leftOf(Entry<K,V> p) {
+    private static `<K,V>` Entry`<K,V>` leftOf(Entry`<K,V>` p) {
         return (p == null) ? null: p.left;
     }
 
-    private static <K,V> Entry<K,V> rightOf(Entry<K,V> p) {
+    private static `<K,V>` Entry`<K,V>` rightOf(Entry`<K,V>` p) {
         return (p == null) ? null: p.right;
     }
-    ```
+```
 
 ---
 
@@ -135,7 +135,7 @@ private void fixAfterInsertion(Entry<K,V> x) {
 
 ```java
 public V remove(Object key) {
-    Entry<K,V> p = getEntry(key);
+    Entry`<K,V>` p = getEntry(key);
     if (p == null)
         return null;
 
@@ -144,7 +144,7 @@ public V remove(Object key) {
     return oldValue;
 }
 
-private void deleteEntry(Entry<K,V> p) {
+private void deleteEntry(Entry`<K,V>` p) {
     size--;
     modCount++;
     // ... 省略较为复杂的实现
@@ -156,10 +156,10 @@ private void deleteEntry(Entry<K,V> p) {
 ### **2. 删除后调整（fixAfterDeletion）**
 
 ```java
-private void fixAfterDeletion(Entry<K,V> x) {
+private void fixAfterDeletion(Entry`<K,V>` x) {
     while (x != root && colorOf(x) == BLACK) {
         if (x == leftOf(parentOf(x))) {
-            Entry<K,V> sib = rightOf(parentOf(x)); // 兄弟节点
+            Entry`<K,V>` sib = rightOf(parentOf(x)); // 兄弟节点
             if (colorOf(sib) == RED) { // 情况1：兄弟为红
                 setColor(sib, BLACK);
                 setColor(parentOf(x), RED);
@@ -182,15 +182,15 @@ private void fixAfterDeletion(Entry<K,V> x) {
 
 ```java
 public V get(Object key) {
-    Entry<K,V> p = getEntry(key);
+    Entry`<K,V>` p = getEntry(key);
     return (p==null ? null : p.value);
 }
 
-final Entry<K,V> getEntry(Object key) {
+final Entry`<K,V>` getEntry(Object key) {
     if (comparator != null)
         return getEntryUsingComparator(key); // 自定义排序规则的查找
     Comparable<? super K> k = (Comparable<? super K>) key; // 注意 key 要实现 Comparable 接口
-    Entry<K,V> p = root;
+    Entry`<K,V>` p = root;
     while (p != null) {
         int cmp = k.compareTo(p.key); // 默认compare逻辑
         if (cmp < 0)
@@ -203,11 +203,11 @@ final Entry<K,V> getEntry(Object key) {
     return null;
 }
 
-final Entry<K,V> getEntryUsingComparator(Object key) {
+final Entry`<K,V>` getEntryUsingComparator(Object key) {
     K k = (K) key;
     Comparator<? super K> cpr = comparator;
     if (cpr != null) {
-        Entry<K,V> p = root;
+        Entry`<K,V>` p = root;
         while (p != null) {
             int cmp = cpr.compare(k, p.key); // 自定义compare逻辑
             if (cmp < 0)
@@ -228,50 +228,50 @@ final Entry<K,V> getEntryUsingComparator(Object key) {
 
 ```java
 // for-each 示例
- for (Map.Entry<Integer, String> entry : treeMap.entrySet()) {
+ for (Map.Entry`<Integer, String>` entry : treeMap.entrySet()) {
     System.out.printf("%d: %s\t", entry.getKey(), entry.getValue());
 }
 
 // 编译器生成的等效代码
-Iterator<Map.Entry<Integer, String>> iterator = treeMap.entrySet().iterator();
+Iterator<Map.Entry`<Integer, String>`> iterator = treeMap.entrySet().iterator();
 while (iterator.hasNext()) {
-    Map.Entry<Integer, String> entry = iterator.next();
+    Map.Entry`<Integer, String>` entry = iterator.next();
     System.out.printf("%d: %s\t", entry.getKey(), entry.getValue());
 }
 ```
 
 ```java
-public Set<Map.Entry<K,V>> entrySet() {
+public Set<Map.Entry`<K,V>`> entrySet() {
     EntrySet es = entrySet;
     return (es != null) ? es : (entrySet = new EntrySet());
 }
 
-class EntrySet extends AbstractSet<Map.Entry<K,V>> {
-    public Iterator<Map.Entry<K,V>> iterator() {
+class EntrySet extends AbstractSet<Map.Entry`<K,V>`> {
+    public Iterator<Map.Entry`<K,V>`> iterator() {
         return new EntryIterator(getFirstEntry()); // 从最小节点开始遍历
     }
 }
 
-final Entry<K,V> getFirstEntry() {
-    Entry<K,V> p = root;
+final Entry`<K,V>` getFirstEntry() {
+    Entry`<K,V>` p = root;
     if (p != null)
         while (p.left != null)
             p = p.left;
     return p;
 }
 
-final class EntryIterator extends PrivateEntryIterator<Map.Entry<K,V>> {
-    EntryIterator(Entry<K,V> first) { super(first); }
-    public Map.Entry<K,V> next() { return nextEntry(); }
+final class EntryIterator extends PrivateEntryIterator<Map.Entry`<K,V>`> {
+    EntryIterator(Entry`<K,V>` first) { super(first); }
+    public Map.Entry`<K,V>` next() { return nextEntry(); }
 }
 
-abstract class PrivateEntryIterator<T> implements Iterator<T> {
+abstract class PrivateEntryIterator`<T>` implements Iterator`<T>` {
     public final boolean hasNext() {
         return next != null;
     }
 
-    final Entry<K,V> nextEntry() {
-        Entry<K,V> e = next;
+    final Entry`<K,V>` nextEntry() {
+        Entry`<K,V>` e = next;
         if (e == null) // 兜底保护
             throw new NoSuchElementException();
         if (modCount != expectedModCount) // 并法控制
@@ -282,17 +282,17 @@ abstract class PrivateEntryIterator<T> implements Iterator<T> {
     }
 }
 
-static <K,V> TreeMap.Entry<K,V> successor(Entry<K,V> t) {
+static `<K,V>` TreeMap.Entry`<K,V>` successor(Entry`<K,V>` t) {
     if (t == null)
         return null;
     else if (t.right != null) {
-        Entry<K,V> p = t.right;
+        Entry`<K,V>` p = t.right;
         while (p.left != null)
             p = p.left;
         return p;
     } else {
-        Entry<K,V> p = t.parent;
-        Entry<K,V> ch = t;
+        Entry`<K,V>` p = t.parent;
+        Entry`<K,V>` ch = t;
         while (p != null && ch == p.right) {
             ch = p;
             p = p.parent;

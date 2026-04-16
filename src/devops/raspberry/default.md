@@ -42,11 +42,11 @@ tag:
 # 树莓派设置Docker仓库
 - `cd /etc/docker`
 - `vi daemon.json`
-    ```json
+```json
     {
       "registry-mirrors": ["https://ug1g4lsw.mirror.aliyuncs.com"]
     }
-    ```
+```
 - `sudo systemctl daemon-reload`
 - `sudo systemctl restart docker`
 - 看看配置有没有生效 `docker info`

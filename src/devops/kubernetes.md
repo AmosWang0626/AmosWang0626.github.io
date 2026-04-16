@@ -57,10 +57,10 @@ tag:
 
 2. 修改配置 `/etc/etcd/etcd.conf`
 
-   ```shell
+```shell
    ETCD_LISTEN_CLIENT_URLS="http://0.0.0.0:2379" #6行
    ETCD_ADVERTISE_CLIENT_URLS="http://10.0.0.11:2379" #21行
-   ```
+```
 
    - `vim`选中一个单词 `viw`
    - `vim`看第几行 `:set number`
@@ -85,21 +85,21 @@ tag:
 
 2. 修改配置`/etc/kubernetes/apiserver`
 
-   ```shell
+```shell
    KUBE_API_ADDRESS="--insecure-bind-address=0.0.0.0" #8行
    KUBE_API_PORT="--port=8080" #11行
    KUBELET_PORT="--kubelet-port=10250" #14行
    KUBE_ETCD_SERVERS="--etcd-servers=http://10.0.0.11:2379" #17行
    KUBE_ADMISSION_CONTROL="--admission-control=" #23行 初学者可先去掉所有权限
-   ```
+```
 
 3. 修改配置`/etc/kubernetes/config`
 
    controller-manager scheduler 共用的配置文件
 
-   ```shell
+```shell
    KUBE_MASTER="--master=http://10.0.0.11:8080" #22行
-   ```
+```
 
 4. 启动并设置开机启动
 
@@ -148,19 +148,19 @@ tag:
 
    因为`k8s`与`docker`搭配的版本有要求，安装`kubernetes-node`会自动安装`docker`，卸载命令如下：
 
-   ```shell
+```shell
    yum list installed | grep docker
    yum -y remove xxx && yum -y remove xxxx # 依次删除即可
-   ```
+```
 
 3. 修改配置
 
-   ```shell
+```shell
    KUBELET_ADDRESS="--address=10.0.0.11" #5
    KUBELET_PORT="--port=10250" #8
    KUBELET_HOSTNAME="--hostname-override=master" #11
    KUBELET_API_SERVER="--api-servers=http://10.0.0.11:8080" #14
-   ```
+```
 
 4. 启动并设置开机启动
 
@@ -173,12 +173,12 @@ tag:
 
 5. 测试一下
 
-   ```shell
+```shell
    kubectl get cs # kubectl get componentstatus
    kubectl get nodes
    kubectl --server=0.0.0.0:8080 get cs # 如果上边命令不可以，那么可以试下这个
    kubectl --server=0.0.0.0:8080 get nodes # 同上（目测apiserver配置有问题）
-   ```
+```
 
 ### 2.4 flannel
 
@@ -188,9 +188,9 @@ tag:
 
 2. 修改配置`vim /etc/sysconfig/flanneld`
 
-   ```shell
+```shell
    FLANNEL_ETCD_ENDPOINTS="http://10.0.0.11:2379" #3
-   ```
+```
 
    `etcdctl set /atomic.io/network/config '{ "Network": "172.16.0.0/16" }'`
 
@@ -224,7 +224,7 @@ tag:
 
    3. 将配置加入Docker启动文件中
 
-      ```shell
+```shell
       systemctl status docker # 找到docker启动文件位置
       which iptables
       vim /usr/lib/systemd/system/docker.service
@@ -232,7 +232,7 @@ tag:
       ExecStartPost=/usr/sbin/iptables -P FORWARD ACCEPT
       # 重新加载配置
       systemctl daemon-reload
-      ```
+```
 
 ## 3. 创建第一个pod
 ### 3.1 创建配置文件 
@@ -297,12 +297,12 @@ nginx     0/1       ContainerCreating   0          1h
 
 3. 修改`kubelet`里的基础容器配置
 
-   ```shell
+```shell
    # 原始配置
    KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=registry.access.redhat.com/rhel7/pod-infrastructure:latest"
    # 修改后的配置
    KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=docker.io/tianyebj/pod-infrastructure:latest"
-   ```
+```
 
    - `docker search pod-infrastructure`
 
@@ -318,23 +318,23 @@ nginx     0/1       ContainerCreating   0          1h
 
    - `kubectl get pod`（看到下边结果就是成功了）
 
-     ```shell
+```shell
      NAME      READY     STATUS    RESTARTS   AGE
      nginx     1/1       Running   0          2h
-     ```
+```
 
 5. 如果没有成功，改下Docker的配置，增加镜像加速地址
 
    - `vim /etc/sysconfig/docker`
    - [申请你的专属镜像加速器地址](https://cr.console.aliyun.com/cn-hangzhou/instances/mirrors)
    
-   ```shell
+```shell
    # 原始内容
    OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false'
    # 增加 --registry-mirror=你的专属镜像加速器地址
    # 修改后内容
    OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --registry-mirror=https://ug1g4lsw.mirror.aliyuncs.com'
-   ```
+```
    
 6. 实时看`docker pull`情况
 
@@ -346,23 +346,23 @@ nginx     0/1       ContainerCreating   0          1h
 
    - 修改`kubelet`私有仓库配置`vim /etc/kubernetes/kubelet`
 
-     ```shell
+```shell
      # 当然前提是重新给 pod-infrastructure 打标签，上传到私有仓库
      KUBELET_POD_INFRA_CONTAINER="--pod-infra-container-image=10.0.0.11:5000/pod-infrastructure:latest"
-     ```
+```
 
    - 修改`docker`私有仓库配置`vim /etc/sysconfig/docker`
 
-     ```shell
+```shell
      OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false --registry-mirror=https://ug1g4lsw.mirror.aliyuncs.com --insecure-registry=10.0.0.11:5000'
-     ```
+```
 
 ## 4. 创建 deployment 和 service
 ### 4.1 配置文件方式
 
 - deployment 配置文件
 
-  ```yaml
+```yaml
   apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
@@ -379,7 +379,7 @@ nginx     0/1       ContainerCreating   0          1h
           image: nginx
           ports:
           - containerPort: 80
-  ```
+```
 
 - 创建 deployment
 
@@ -387,7 +387,7 @@ nginx     0/1       ContainerCreating   0          1h
 
 - service 配置文件
 
-  ```yaml
+```yaml
   apiVersion: v1
   kind: Service
   metadata:
@@ -400,7 +400,7 @@ nginx     0/1       ContainerCreating   0          1h
       targetPort: 80 # 容器的端口
     selector: # 标签选择器
       app: nginx
-  ```
+```
 
 - 创建 service
 

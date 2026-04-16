@@ -21,8 +21,8 @@ order: 7
 
 ### **源码核心**
 ```java
-public class HashSet<E> extends AbstractSet<E> implements Set<E> {
-    private transient HashMap<E, Object> map;
+public class HashSet`<E>` extends AbstractSet`<E>` implements Set`<E>` {
+    private transient HashMap`<E, Object>` map;
     private static final Object PRESENT = new Object();
 
     public HashSet() {
@@ -52,7 +52,7 @@ public class HashSet<E> extends AbstractSet<E> implements Set<E> {
 
 ### **源码核心**
 ```java
-public class LinkedHashSet<E> extends HashSet<E> implements Set<E> {
+public class LinkedHashSet`<E>` extends HashSet`<E>` implements Set`<E>` {
     public LinkedHashSet() {
         super(16, 0.75f, true); // 调用HashSet的特定构造方法
     }
@@ -78,8 +78,8 @@ public class LinkedHashSet<E> extends HashSet<E> implements Set<E> {
 
 ### **源码核心**
 ```java
-public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E> {
-    private transient NavigableMap<E, Object> map;
+public class TreeSet`<E>` extends AbstractSet`<E>` implements NavigableSet`<E>` {
+    private transient NavigableMap`<E, Object>` map;
     private static final Object PRESENT = new Object();
 
     public TreeSet() {
@@ -115,16 +115,16 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E> {
 ## 五、源码设计关键点
 1. **代码复用**  
    `HashSet` 和 `LinkedHashSet` 通过复用 `HashMap` 和 `LinkedHashMap` 的代码，减少冗余逻辑。例如：
-   ```java
+```java
    // HashSet的add方法直接委托给HashMap
    public boolean add(E e) {
        return map.put(e, PRESENT) == null;
    }
-   ```
+```
 
 2. **排序机制**  
    `TreeSet` 依赖 `TreeMap` 的红黑树排序，通过 `Comparator` 或 `Comparable` 接口实现元素比较：
-   ```java
+```java
    // TreeMap的put方法内部比较逻辑
    Comparator<? super K> cpr = comparator;
    if (cpr != null) {
@@ -134,14 +134,14 @@ public class TreeSet<E> extends AbstractSet<E> implements NavigableSet<E> {
            // ...
        } while (t != null);
    }
-   ```
+```
 
 3. **双向链表维护（LinkedHashSet）**  
    `LinkedHashMap` 通过 `Entry` 类扩展 `HashMap.Node`，添加 `before` 和 `after` 指针维护顺序：
    ```java
-   static class Entry<K,V> extends HashMap.Node<K,V> {
-       Entry<K,V> before, after;
-       Entry(int hash, K key, V value, Node<K,V> next) {
+   static class Entry`<K,V>` extends HashMap.Node`<K,V>` {
+       Entry`<K,V>` before, after;
+       Entry(int hash, K key, V value, Node`<K,V>` next) {
            super(hash, key, value, next);
        }
    }

@@ -169,14 +169,14 @@ Java 天生支持先行发生原则，具体原则如下。如果两个操作之
 
      Java虚拟机的指令集中有 monitorenter 和 monitorexit 两条指令来支持 synchronized 关键字的语义，正确实现 synchronized 关键字需要 javac 编译器与 Java虚拟机两者共同协作支持。
 
-     ```java
+```java
      void onlyMe(Foo f) {
          synchronized (f) {
              doSomething();
          }
      }
-     ```
-     ```c
+```
+```c
      Method void onlyMe(Foo)
      0 aload_1		// 将对象f入栈
      1 dup			// 复制栈顶元素（即f的引用）
@@ -197,7 +197,7 @@ Java 天生支持先行发生原则，具体原则如下。如果两个操作之
      FromTo Target Type
      4 10 13 any
      13 16 13 any
-     ```
+```
 
      编译器必须确保无论方法通过何种方式完成，方法中调用过的每条 monitorenter 指令都必须有其对应的 monitorexit 指令，而无论这个方法是正常结束还是异常结束。
 
@@ -219,7 +219,7 @@ Java 天生支持先行发生原则，具体原则如下。如果两个操作之
 
     禁止指令重排序，保障新值的可见性。结合 DCL 编译后的源码看一下 ↓↓↓↓↓
 
-    ```java
+```java
     public class Singleton {
         private volatile static Singleton instance;
     
@@ -238,9 +238,9 @@ Java 天生支持先行发生原则，具体原则如下。如果两个操作之
             Singleton.getInstance();
         }
     }
-    ```
+```
 
-    ```c
+```c
     0x01a3de0f: mov $0x3375cdb0,%esi        ;...beb0cd75 33
                                             ; {oop('Singleton')}
     0x01a3de14: mov %eax,0x150(%esi)        ;...89865001 0000
@@ -249,7 +249,7 @@ Java 天生支持先行发生原则，具体原则如下。如果两个操作之
     0x01a3de24: lock addl $0x0,(%esp)       ;...f0830424 00
                                             ;*putstatic instance
                                             ; - Singleton::getInstance@24
-    ```
+```
 
     **关键指令：`lock addl $0x0,(%esp)`**
 
@@ -331,7 +331,7 @@ singleThreadPool.shutdown();
 
 ### ThreadPoolExecutor 参数详解
 > ThreadPoolExecutor(int corePoolSize, int maximumPoolSize, 
->                    long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue, 
+>                    long keepAliveTime, TimeUnit unit, BlockingQueue`<Runnable>` workQueue, 
 >                    ThreadFactory threadFactory, RejectedExecutionHandler handler)
 
 - int corePoolSize 核心线程数。
@@ -347,7 +347,7 @@ singleThreadPool.shutdown();
 - TimeUnit unit 指定keepAliveTime的单位，如TimeUnit.SECONDS。
     - 当将allowCoreThreadTimeOut设置为true时对corePoolSize生效。
 
-- BlockingQueue<Runnable> workQueue 线程池中的任务队列。
+- BlockingQueue`<Runnable>` workQueue 线程池中的任务队列。
     - 常用的有三种队列，SynchronousQueue,LinkedBlockingDeque,ArrayBlockingQueue。
 
 - ThreadFactory threadFactory 线程工厂，提供创建新线程的功能。

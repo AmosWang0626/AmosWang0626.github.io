@@ -228,9 +228,9 @@ tag:
 - 批量导入服务器
     - 先决文件：https://www.vandyke.com/support/tips/importsessions.html
     - 创建一个.csv文件,写上对应服务器信息,如下
-      ```
+```
       protocol,username,folder,session_name,hostname
       SSH2,root,hello,pro-hello,127.0.0.1
-      ```
+```
 
 [回到顶部](#Linux)

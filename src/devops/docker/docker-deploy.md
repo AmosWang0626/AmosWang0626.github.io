@@ -24,12 +24,12 @@ ENTRYPOINT ["java", "-Xmx512M", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDump
 - `ENTRYPOINT []` 里的参数要用双引号逗号隔开，不可写在一起
 - 执行命令时，不会自动创建文件夹，故没有的文件要提前创建（创建方式如下）
 - 以上命令等价于
-    ```shell script
+    `shell script
     java -Xmx512M -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/log/manager/ -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintHeapAtGC -Xloggc:/log/manager/gc.log -cp app:app/lib/* com.eastrobot.kbs.KbasePsrtApplication
-    ```
+```
 
 - 给容器创建文件夹
-```dockerfile
+```
 RUN mkdir --parents /log/manager/
 ```
 

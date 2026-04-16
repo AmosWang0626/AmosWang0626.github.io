@@ -119,7 +119,7 @@ public class OOMMain {
      * will throw oom by Java heap space
      */
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
+        List`<String>` list = new ArrayList<>();
         while (true) {
             list.add(STR += STR);
         }

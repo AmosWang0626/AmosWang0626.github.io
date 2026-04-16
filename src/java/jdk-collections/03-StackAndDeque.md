@@ -66,7 +66,7 @@ order: 3
 ### 代码示例对比
 #### 使用 `Stack`（不推荐）：
 ```java
-Stack<String> stack = new Stack<>();
+Stack`<String>` stack = new Stack<>();
 stack.push("A");
 stack.push("B");
 String top = stack.pop(); // "B"
@@ -74,7 +74,7 @@ String top = stack.pop(); // "B"
 
 #### 使用 `Deque`（推荐）：
 ```java
-Deque<String> deque = new ArrayDeque<>();
+Deque`<String>` deque = new ArrayDeque<>();
 deque.push("A");
 deque.push("B");
 String top = deque.pop(); // "B"

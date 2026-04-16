@@ -72,7 +72,7 @@ category:
 
 14. 直接声明对象
 
-    ```js
+```js
     // 不好的写法
     var book = new Object();
     book.title = "Maintainable JavaScript";
@@ -83,11 +83,11 @@ category:
     title: "Maintainable JavaScript",
     author: "Nicholas C. Zakas"
     };
-    ```
+```
 
 15. 直接声明数组
 
-    ```js
+```js
     // 不好的写法
     var colors = new Array("red", "green", "blue");
     var numbers = new Array(1, 2, 3, 4);
@@ -95,7 +95,7 @@ category:
     // 好的做法
     var colors = [ "red", "green", "blue" ];
     var numbers = [ 1, 2, 3, 4 ];
-    ```
+```
 
     
 
@@ -118,7 +118,7 @@ category:
 
    - 被注释掉的大段代码（很多编辑器都可以批量注释掉多行代码）
 
-   ```js
+```js
    if (condition) {
        // 如果代码执行到这里，则表明通过了所有安全性检查
        allowed();
@@ -155,25 +155,25 @@ category:
        // 如果代码执行到这里，则表明通过了所有安全性检查
        allowed();
    }
-   ```
+```
 
 2. 多行注释
 
    示例：
 
-   ```js
+```js
    /*
     * 另一段注释
     * 这段注释包含两行文本
     */
-   ```
+```
 
    - 多好注释前加空行
    - 每行前有 `*` 星号
    - `*` 星号后加空格
    - 行尾注释不要用多行注释
 
-   ```js
+```js
    // 好的写法
    if (condition) {
    
@@ -213,7 +213,7 @@ category:
    
    // 不好的写法：代码尾部注释不要用多行注释格式
    var result = something + somethingElse; /*somethingElse 不应当取值为null*/
-   ```
+```
 
 3. 使用注释
 
@@ -237,7 +237,7 @@ category:
 
    - 变量声明提前
 
-     ```js
+```js
      function doSomethingWithItems(items) {
          for (var i=0, len=items.length; i < len; i++) {
          	doSomething(items[i]);
@@ -251,11 +251,11 @@ category:
          	doSomething(items[i]);
          }
      }
-     ```
+```
 
    - 推荐：函数顶部使用单`var`语句
 
-     ```js
+```js
      function doSomethingWithItems(items) {
          var value = 10,
              result = value + 10,
@@ -265,13 +265,13 @@ category:
          	doSomething(items[i]);
          }
      }
-     ```
+```
 
 2. 函数声明
 
    - 不要在函数声明之前调用函数
 
-     ```js
+```js
      // 不好的写法
      doSomething();
      function doSomething() {
@@ -283,11 +283,11 @@ category:
      	alert("Hello world!");
      }
      doSomething()
-     ```
+```
 
    - 函数内部的局部函数，应紧接着变量声明之后声明
 
-     ```js
+```js
      function doSomethingWithItems(items) {
          var i, len,
              value = 10,
@@ -301,11 +301,11 @@ category:
          	doSomething(items[i]);
          }
      }
-     ```
+```
 
    - 函数声明不应该出现在语句块之内
 
-     ```js
+```js
      // 不好的写法
      if (condition) {
          function doSomething() {
@@ -316,11 +316,11 @@ category:
              alert("Yo!");
          }
      }
-     ```
+```
 
 3. 立即调用的函数
 
-   ```js
+```js
    // 不好的写法
    var value = function() {
        // 函数体
@@ -336,7 +336,7 @@ category:
        	message: "Hi"
        }
    }());
-   ```
+```
 
 4. 天然漏洞`eval()`，避免使用
 
@@ -350,12 +350,12 @@ category:
 
 2. 将JavaScript从CSS中抽离
 
-   ```css
+```css
    /* 不好的写法 */
    .box {
    	width: expression(document.body.offsetWidth + "px");
    }
-   ```
+```
 
    试想，这里边设置了元素宽度以匹配浏览器的宽度。要是要调整，你能想到关键代码在css里？
 
@@ -363,25 +363,25 @@ category:
 
 4. 将JavaScript从HTML中抽离
 
-   ```html
+```html
    <!-- 不好的写法 -->
    <button onclick="doSomething()" id="action-btn">Click Me</button>
-   ```
+```
 
    深耦合，不解释
 
-   ```js
+```js
    // jQuery
    $("#action-btn").on("click", doSomething);
-   ```
+```
 
 5. 将HTML从JavaScript中抽离
 
-   ```js
+```js
    // 不好的写法
    var div = document.getElementById("my-div");
    div.innerHTML = "<h3>Error</h3><p>Invalid e-mail address.</p>";
-   ```
+```
 
    1. 从服务器加载
 
@@ -389,7 +389,7 @@ category:
 
    2. 简单客户端模板
 
-      ```html
+```html
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -410,14 +410,14 @@ category:
       </ul>
       </body>
       </html>
-      ```
+```
 
    3. 复杂客户端模板
 
-      ```html
+```html
       <script id="templateModal" type="text/html">
       </script>
-      ```
+```
 
 6. 避免使用全局变量
 
@@ -431,12 +431,12 @@ category:
 
       不小心省略`var`导致的全局变量bug
 
-      ```js
+```js
       function something {
       	var count = 10;
                name = "AmosWang";
       }
-      ```
+```
 
       此时name就会自动创建为全局变量
 
@@ -446,7 +446,7 @@ category:
 
 7. 事件处理
 
-   ```js
+```js
    // 不好的写法
    function handleClick(event) {
        var popup = document.getElementById("popup");
@@ -456,9 +456,9 @@ category:
    }
    // 第7章中的 addListener()
    addListener(element, "click", handleClick);
-   ```
+```
 
-   ```js
+```js
    // 好的写法 - 拆分应用逻辑
    var MyApplication = {
        handleClick: function(event) {
@@ -474,9 +474,9 @@ category:
    addListener(element, "click", function(event) {
    	MyApplication.handleClick(event);
    });
-   ```
+```
 
-   ```js
+```js
    // 好的做法 - 不要分发事件对象
    var MyApplication = {
        handleClick: function(event) {
@@ -497,7 +497,7 @@ category:
    addListener(element, "click", function(event) {
    	MyApplication.handleClick(event); // 可以这样做
    });
-   ```
+```
 
 8. 避免空比较
 
@@ -505,7 +505,7 @@ category:
 
    1. 检测原始值（typeof 或 === !==）
 
-      ```js
+```js
       // 检测字符串
       if (typeof name === "string") {
       	anotherName = name.substring(3);
@@ -530,14 +530,14 @@ category:
       if (element !== null) {
       	element.className = "found";
       }
-      ```
+```
 
       - 运行typeof null 则返回“object”，这是一种低效的判断null的方法。
       - 如果你需要检测null，则直接使用恒等运算符（===）或非恒等运算符（!==）。
 
    2. 检测引用值（instanceof）
 
-      ```js
+```js
       // 检测日期
       if (value instanceof Date) {
       	console.log(value.getFullYear());
@@ -552,22 +552,22 @@ category:
       if (value instanceof Error) {
       	throw value;
       }
-      ```
+```
 
    3. 检测函数
 
-      ```js
+```js
       function myFunc() {}
       // 不好的写法
       console.log(myFunc instanceof Function); // true
       
       // 好的写法
       console.log(typeof myFunc === "function"); // true
-      ```
+```
 
    4. 检测数组
 
-      ```js
+```js
       function isArray(value) {
           if (typeof Array.isArray === "function") {
           	return Array.isArray(value);
@@ -575,5 +575,5 @@ category:
           	return Object.prototype.toString.call(value) === "[object Array]";
           }
       }
-      ```
+```
 

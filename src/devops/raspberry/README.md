@@ -44,43 +44,43 @@ tag:
 
 ## 7. 安装 Docker
 - 卸载旧版本
-```shell script
+`shell script
 sudo yum remove docker docker-common docker-selinux docker-engine
 ```
 
 - 安装依赖
-```shell script
+`shell script
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 ```
 
 - 设置镜像仓库
-```shell script
+`shell script
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 ```
 
 - 安装 Docker
-```shell script
+`shell script
 sudo yum install docker
 ```
 
 - 启动 Docker
-```shell script
+`shell script
 service docker start
 ```
 
 - 设置开机自启动
-```shell script
+`shell script
 sudo systemctl enable docker
 ```
 
 - 配置镜像加速器
   - `vim /etc/docker/daemon.json`
   - 加入如下内容
-      ```json
+```json
       {
         "registry-mirrors": ["https://ug1g4lsw.mirror.aliyuncs.com"]
       }
-      ```
+```
   - 应用配置 `sudo systemctl daemon-reload`
   - 重启Docker `sudo systemctl restart docker`
   - 检查配置是否生效 `docker info`

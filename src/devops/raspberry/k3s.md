@@ -38,12 +38,12 @@ tag:
 > 亲测，在`~/.bashrc`里添加`xxx_proxy`不行
 
 1. 添加环境变量 `vim /etc/environment`
-    ```shell script
+    `shell script
     export http_proxy="http://192.168.1.108:1080"
     export https_proxy="http://192.168.1.108:1080"
     export ftp_proxy="http://192.168.1.108:1080"
     export no_proxy="localhost,127.0.0.1"
-    ```
+```
 
 2. 应用环境变量 `visudo`
     > 添加一行如下命令，env_keep，顾名思义，保持这个环境变量，防止用户切换导致环境变量丢失。

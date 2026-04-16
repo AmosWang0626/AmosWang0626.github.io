@@ -130,7 +130,7 @@ tag:
 
 ### Bridge 第一种方式
 > -p **:** 指定端口 p小写
-```shell script
+`shell script
 # Bridge[桥接网络的方式]启动容器
 docker run -d -p 8080:80 nginx
 
@@ -143,7 +143,7 @@ localhost:8080
 
 ### Bridge 第二种方式
 > -P 随机分配端口 P大写
-```shell script
+`shell script
 # Bridge[桥接网络的方式]启动容器
 docker run -d -P nginx
 

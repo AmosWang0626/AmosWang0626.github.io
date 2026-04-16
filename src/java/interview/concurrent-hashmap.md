@@ -41,14 +41,14 @@ HashTable，get和put都加了synchronized修饰，这样带来的直接问题�
 类似HashMap，只不过一个由一个数组，换成了一组数组，每个Segment中有一个数组，看下边源码。
 
 ```java
-static final class Segment<K, V> extends ReentrantLock implements Serializable {
+static final class Segment`<K, V>` extends ReentrantLock implements Serializable {
 
     private static final long serialVersionUID = 2249069246763182397L;
 
     static final int MAX_SCAN_RETRIES =
             Runtime.getRuntime().availableProcessors() > 1 ? 64 : 1;
 
-    transient volatile HashEntry<K, V>[] table;
+    transient volatile HashEntry`<K, V>`[] table;
 
     transient int count;
 
@@ -58,19 +58,19 @@ static final class Segment<K, V> extends ReentrantLock implements Serializable {
 
     final float loadFactor;
 
-    Segment(float lf, int threshold, HashEntry<K, V>[] tab) {
+    Segment(float lf, int threshold, HashEntry`<K, V>`[] tab) {
         this.loadFactor = lf;
         this.threshold = threshold;
         this.table = tab;
     }
 
     final V put(K key, int hash, V value, boolean onlyIfAbsent) {
-        HashEntry<K, V> node = tryLock() ? null : scanAndLockForPut(key, hash, value);
+        HashEntry`<K, V>` node = tryLock() ? null : scanAndLockForPut(key, hash, value);
         V oldValue;
         try {
-            HashEntry<K, V>[] tab = table;
+            HashEntry`<K, V>`[] tab = table;
             int index = (tab.length - 1) & hash;
-            HashEntry<K, V> first = entryAt(tab, index);
+            HashEntry`<K, V>` first = entryAt(tab, index);
             // ...
         } finally {
             unlock();
@@ -86,11 +86,11 @@ put操作时，通过两次hash定位HashEntry位置，第一次找到在第几�
 ### 1.7 计算 size（初见，挺有趣）
 
 ```java
-public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
+public class ConcurrentHashMap`<K, V>` extends AbstractMap`<K, V>` implements ConcurrentMap`<K, V>`, Serializable {
     public int size() {
         // Try a few times to get accurate count. On failure due to
         // continuous async changes in table, resort to locking.
-        final Segment<K, V>[] segments = this.segments;
+        final Segment`<K, V>`[] segments = this.segments;
         int size;
         boolean overflow; // true if size overflows 32 bits
         long sum;         // sum of modCounts
@@ -108,7 +108,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 size = 0;
                 overflow = false;
                 for (int j = 0; j < segments.length; ++j) {
-                    Segment<K, V> seg = segmentAt(segments, j);
+                    Segment`<K, V>` seg = segmentAt(segments, j);
                     if (seg != null) {
                         // seg.modCount 是只加不减的
                         sum += seg.modCount;
@@ -143,23 +143,23 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
 JDK1.6之后，synchronized做过优化，会有锁升级的过程，无锁、偏向锁、轻量级锁、重量级锁，以此来保证并发安全。
 
 ```java
- static class Node<K, V> implements Map.Entry<K, V> {
+ static class Node`<K, V>` implements Map.Entry`<K, V>` {
     final int hash;
     final K key;
     volatile V val;
-    volatile Node<K, V> next;
+    volatile Node`<K, V>` next;
 }
 ```
 
 ```java
-public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
+public class ConcurrentHashMap`<K, V>` extends AbstractMap`<K, V>` implements ConcurrentMap`<K, V>`, Serializable {
 
     final V putVal(K key, V value, boolean onlyIfAbsent) {
         if (key == null || value == null) throw new NullPointerException();
         int hash = spread(key.hashCode());
         int binCount = 0;
-        for (Node<K, V>[] tab = table; ; ) {
-            Node<K, V> f;
+        for (Node`<K, V>`[] tab = table; ; ) {
+            Node`<K, V>` f;
             int n, i, fh;
             K fk;
             V fv;
@@ -167,7 +167,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                 tab = initTable();
             else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
                 // CAS 操作（注意：仅在table中头结点为null时使用CAS，也就是没发生Hash冲突的时候）
-                if (casTabAt(tab, i, null, new Node<K, V>(hash, key, value)))
+                if (casTabAt(tab, i, null, new Node`<K, V>`(hash, key, value)))
                     break;                   // no lock when adding to empty bin
             } else if ((fh = f.hash) == MOVED)
                 tab = helpTransfer(tab, f);
@@ -183,7 +183,7 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                     if (tabAt(tab, i) == f) {
                         if (fh >= 0) {
                             binCount = 1;
-                            for (Node<K, V> e = f; ; ++binCount) {
+                            for (Node`<K, V>` e = f; ; ++binCount) {
                                 K ek;
                                 if (e.hash == hash &&
                                         ((ek = e.key) == key ||
@@ -193,16 +193,16 @@ public class ConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concur
                                         e.val = value;
                                     break;
                                 }
-                                Node<K, V> pred = e;
+                                Node`<K, V>` pred = e;
                                 if ((e = e.next) == null) {
-                                    pred.next = new Node<K, V>(hash, key, value);
+                                    pred.next = new Node`<K, V>`(hash, key, value);
                                     break;
                                 }
                             }
                         } else if (f instanceof TreeBin) {
-                            Node<K, V> p;
+                            Node`<K, V>` p;
                             binCount = 2;
-                            if ((p = ((TreeBin<K, V>) f).putTreeVal(hash, key,
+                            if ((p = ((TreeBin`<K, V>`) f).putTreeVal(hash, key,
                                     value)) != null) {
                                 oldVal = p.val;
                                 if (!onlyIfAbsent)

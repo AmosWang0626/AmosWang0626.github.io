@@ -19,12 +19,12 @@ order: 2
 ### **1. 节点结构（Node）**
 每个节点包含数据（`item`）、前驱指针（`prev`）和后继指针（`next`）：
 ```java
-private static class Node<E> {
+private static class Node`<E>` {
     E item;         // 节点存储的数据
-    Node<E> next;   // 指向下一个节点
-    Node<E> prev;   // 指向前一个节点
+    Node`<E>` next;   // 指向下一个节点
+    Node`<E>` prev;   // 指向前一个节点
 
-    Node(Node<E> prev, E element, Node<E> next) {
+    Node(Node`<E>` prev, E element, Node`<E>` next) {
         this.item = element;
         this.next = next;
         this.prev = prev;
@@ -36,8 +36,8 @@ private static class Node<E> {
 - **头尾指针**：维护链表的首尾节点。
 - **长度**：记录链表当前元素数量。
 ```java
-transient Node<E> first; // 头节点
-transient Node<E> last;  // 尾节点
+transient Node`<E>` first; // 头节点
+transient Node`<E>` last;  // 尾节点
 transient int size = 0;  // 链表长度
 ```
 
@@ -50,8 +50,8 @@ transient int size = 0;  // 链表长度
   时间复杂度 **O(1)**，直接操作尾节点。
   ```java
   void linkLast(E e) {
-      final Node<E> l = last;           // 原尾节点
-      final Node<E> newNode = new Node<>(l, e, null);
+      final Node`<E>` l = last;           // 原尾节点
+      final Node`<E>` newNode = new Node<>(l, e, null);
       last = newNode;                   // 更新尾节点为新节点
       if (l == null)                    // 原链表为空
           first = newNode;              // 新节点同时为头节点
@@ -65,8 +65,8 @@ transient int size = 0;  // 链表长度
   时间复杂度 **O(1)**，直接操作头节点。
   ```java
   void linkFirst(E e) {
-      final Node<E> f = first;          // 原头节点
-      final Node<E> newNode = new Node<>(null, e, f);
+      final Node`<E>` f = first;          // 原头节点
+      final Node`<E>` newNode = new Node<>(null, e, f);
       first = newNode;                  // 更新头节点为新节点
       if (f == null)                    // 原链表为空
           last = newNode;               // 新节点同时为尾节点
@@ -88,23 +88,23 @@ transient int size = 0;  // 链表长度
   }
 
   // 查找索引对应的节点
-  Node<E> node(int index) {
+  Node`<E>` node(int index) {
       if (index < (size >> 1)) {        // 索引在前半部分，从头遍历
-          Node<E> x = first;
+          Node`<E>` x = first;
           for (int i = 0; i < index; i++)
               x = x.next;
           return x;
       } else {                          // 索引在后半部分，从尾遍历
-          Node<E> x = last;
+          Node`<E>` x = last;
           for (int i = size - 1; i > index; i--)
               x = x.prev;
           return x;
       }
   }
 
-  void linkBefore(E e, Node<E> succ) {
-      final Node<E> pred = succ.prev;   // 目标节点的前驱
-      final Node<E> newNode = new Node<>(pred, e, succ);
+  void linkBefore(E e, Node`<E>` succ) {
+      final Node`<E>` pred = succ.prev;   // 目标节点的前驱
+      final Node`<E>` newNode = new Node<>(pred, e, succ);
       succ.prev = newNode;              // 目标节点前驱指向新节点
       if (pred == null)                 // 插入到头部
           first = newNode;
@@ -119,15 +119,15 @@ transient int size = 0;  // 链表长度
   时间复杂度 **O(1)**，直接操作头节点。
   ```java
   public E removeFirst() {
-      final Node<E> f = first;
+      final Node`<E>` f = first;
       if (f == null)
           throw new NoSuchElementException();
       return unlinkFirst(f);
   }
 
-  private E unlinkFirst(Node<E> f) {
+  private E unlinkFirst(Node`<E>` f) {
       final E element = f.item;
-      final Node<E> next = f.next;      // 原头节点的后继
+      final Node`<E>` next = f.next;      // 原头节点的后继
       f.item = null;                    // 清除数据以帮助 GC
       f.next = null;                    // 断开原头节点
       first = next;                     // 更新头节点
@@ -144,15 +144,15 @@ transient int size = 0;  // 链表长度
   时间复杂度 **O(1)**，直接操作尾节点。
   ```java
   public E removeLast() {
-      final Node<E> l = last;
+      final Node`<E>` l = last;
       if (l == null)
           throw new NoSuchElementException();
       return unlinkLast(l);
   }
 
-  private E unlinkLast(Node<E> l) {
+  private E unlinkLast(Node`<E>` l) {
       final E element = l.item;
-      final Node<E> prev = l.prev;      // 原尾节点的前驱
+      final Node`<E>` prev = l.prev;      // 原尾节点的前驱
       l.item = null;
       l.prev = null;                    // 断开原尾节点
       last = prev;                      // 更新尾节点
@@ -173,10 +173,10 @@ transient int size = 0;  // 链表长度
       return unlink(node(index));       // 找到节点并删除
   }
 
-  E unlink(Node<E> x) {
+  E unlink(Node`<E>` x) {
       final E element = x.item;
-      final Node<E> next = x.next;      // 目标节点的后继
-      final Node<E> prev = x.prev;      // 目标节点的前驱
+      final Node`<E>` next = x.next;      // 目标节点的后继
+      final Node`<E>` prev = x.prev;      // 目标节点的前驱
 
       if (prev == null)                 // 目标节点是头节点
           first = next;

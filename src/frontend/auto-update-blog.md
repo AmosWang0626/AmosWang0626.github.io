@@ -44,7 +44,7 @@ tag:
 
 1. 创建一个 `docker-compose.yml`
 
-   ```
+```
     version: '3.5'
     services:
       auto:
@@ -59,7 +59,7 @@ tag:
           - JSCH_USERNAME=root
           - JSCH_PASSWORD=root
           - COMMAND=./update.sh
-   ```
+```
 
 2. 自定义参数
 
@@ -73,14 +73,14 @@ tag:
 
 3. 测试一哈
 
-   ```
+```
    POST http://localhost:8080/pull
    Content-Type: application/json
    
    {
     "ref": "1433233"
    }
-   ```
+```
 
 ## 效果图
 

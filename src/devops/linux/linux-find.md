@@ -33,7 +33,7 @@ tag:
   
 - 安装完需要先刷新数据库 `updatedb`
 
-  ```shell
+```shell
   $ locate /etc/*network
   /etc/rc.d/init.d/network
   /etc/rc.d/rc0.d/K90network
@@ -43,7 +43,7 @@ tag:
   /etc/sysconfig/network
   $ locate /etc/*S*network
   /etc/rc.d/rc2.d/S10network
-  ```
+```
 
 ## 4. `find`
 
@@ -51,7 +51,7 @@ tag:
 
 - 完全匹配，支持模糊查询，只找文件（可加 `-type d` 找目录）
 
-  ```shell
+```shell
   $ find -name boot*.*
   ./boot-2019.zip
   $ find / -name boot*.*
@@ -61,4 +61,4 @@ tag:
   $ find /opt/hexo/hexoui/ -name java-*.md  
   /opt/hexo/hexoui/source/_posts/notes/java/java-gc-01.md
   /opt/hexo/hexoui/source/_posts/notes/java/java-gc-02.md
-  ```
+```

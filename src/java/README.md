@@ -1,7 +1,6 @@
 ---
 title: Java技术栈
 index: false
-icon: java
 cover: /assets/images/cover1.jpeg
 category:
   - Java技术

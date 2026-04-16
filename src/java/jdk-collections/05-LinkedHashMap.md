@@ -18,9 +18,9 @@ LinkedHashMap 是 Java 中基于哈希表和双向链表实现的有序 Map，�
 
 LinkedHashMap 的节点继承自 `HashMap.Node`，并扩展了双向链表的前驱（`before`）和后继（`after`）指针：
 ```java
-static class Entry<K,V> extends HashMap.Node<K,V> {
-    Entry<K,V> before, after; // 双向链表指针
-    Entry(int hash, K key, V value, Node<K,V> next) {
+static class Entry`<K,V>` extends HashMap.Node`<K,V>` {
+    Entry`<K,V>` before, after; // 双向链表指针
+    Entry(int hash, K key, V value, Node`<K,V>` next) {
         super(hash, key, value, next);
     }
 }
@@ -31,8 +31,8 @@ static class Entry<K,V> extends HashMap.Node<K,V> {
 - `accessOrder`：标记链表顺序模式（`true` 为访问顺序，`false` 为插入顺序，默认）。
 
 ```java
-transient LinkedHashMap.Entry<K,V> head; // 链表头
-transient LinkedHashMap.Entry<K,V> tail; // 链表尾
+transient LinkedHashMap.Entry`<K,V>` head; // 链表头
+transient LinkedHashMap.Entry`<K,V>` tail; // 链表尾
 final boolean accessOrder; // 顺序模式标志
 ```
 
@@ -43,14 +43,14 @@ final boolean accessOrder; // 顺序模式标志
 ### **1. 覆盖 `newNode` 方法**
 插入新节点时，除了哈希表逻辑，还会将节点链接到链表尾部：
 ```java
-Node<K,V> newNode(int hash, K key, V value, Node<K,V> e) {
-    LinkedHashMap.Entry<K,V> p = new Entry<>(hash, key, value, e);
+Node`<K,V>` newNode(int hash, K key, V value, Node`<K,V>` e) {
+    LinkedHashMap.Entry`<K,V>` p = new Entry<>(hash, key, value, e);
     linkNodeLast(p); // 将新节点链接到链表尾部
     return p;
 }
 
-private void linkNodeLast(Entry<K,V> p) {
-    Entry<K,V> last = tail;
+private void linkNodeLast(Entry`<K,V>` p) {
+    Entry`<K,V>` last = tail;
     tail = p; // 更新尾节点
     if (last == null) {
         head = p; // 链表为空时，头尾均指向新节点
@@ -65,7 +65,7 @@ private void linkNodeLast(Entry<K,V> p) {
 插入完成后，触发 `afterNodeInsertion` 方法，用于 LRU 缓存淘汰策略：
 ```java
 void afterNodeInsertion(boolean evict) {
-    Entry<K,V> first;
+    Entry`<K,V>` first;
     // 若开启淘汰策略且链表头存在，检查是否需要移除最旧节点
     if (evict && (first = head) != null && removeEldestEntry(first)) {
         K key = first.key;
@@ -73,7 +73,7 @@ void afterNodeInsertion(boolean evict) {
     }
 }
 
-protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
+protected boolean removeEldestEntry(Map.Entry`<K,V>` eldest) {
     return false; // 默认不淘汰，可重写以实现 LRU
 }
 ```
@@ -86,16 +86,16 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 当 `accessOrder=true` 时，访问节点会触发 `afterNodeAccess`，将其移至链表尾部：
 ```java
 public V get(Object key) {
-    Node<K,V> e;
+    Node`<K,V>` e;
     if ((e = getNode(hash(key), key)) == null) return null;
     if (accessOrder) afterNodeAccess(e); // 若为访问顺序，调整节点位置
     return e.value;
 }
 
-void afterNodeAccess(Node<K,V> e) {
-    Entry<K,V> last;
+void afterNodeAccess(Node`<K,V>` e) {
+    Entry`<K,V>` last;
     if (accessOrder && (last = tail) != e) { // 仅当节点不是尾节点时调整
-        Entry<K,V> p = (Entry<K,V>)e, b = p.before, a = p.after;
+        Entry`<K,V>` p = (Entry`<K,V>`)e, b = p.before, a = p.after;
         p.after = null; // 断开当前节点
         
         // 调整前驱节点的后继指针
@@ -125,8 +125,8 @@ void afterNodeAccess(Node<K,V> e) {
 ### **覆盖 `afterNodeRemoval` 方法**
 删除节点时，从双向链表中移除该节点的引用：
 ```java
-void afterNodeRemoval(Node<K,V> e) {
-    Entry<K,V> p = (Entry<K,V>)e, b = p.before, a = p.after;
+void afterNodeRemoval(Node`<K,V>` e) {
+    Entry`<K,V>` p = (Entry`<K,V>`)e, b = p.before, a = p.after;
     p.before = p.after = null; // 断开节点连接
     
     // 调整前驱节点的后继指针
@@ -146,8 +146,8 @@ void afterNodeRemoval(Node<K,V> e) {
 LinkedHashMap 的迭代器直接遍历双向链表，而非哈希表桶数组，保证顺序性：
 ```java
 abstract class LinkedHashIterator {
-    Entry<K,V> next;    // 下一个节点
-    Entry<K,V> current; // 当前节点
+    Entry`<K,V>` next;    // 下一个节点
+    Entry`<K,V>` current; // 当前节点
     int expectedModCount;
 
     LinkedHashIterator() {
@@ -160,8 +160,8 @@ abstract class LinkedHashIterator {
         return next != null;
     }
 
-    final Entry<K,V> nextNode() {
-        Entry<K,V> e = next;
+    final Entry`<K,V>` nextNode() {
+        Entry`<K,V>` e = next;
         if (modCount != expectedModCount) throw new ConcurrentModificationException();
         if (e == null) throw new NoSuchElementException();
         current = e;
@@ -177,7 +177,7 @@ abstract class LinkedHashIterator {
 
 通过重写 `removeEldestEntry` 方法，可轻松实现固定大小的 LRU 缓存：
 ```java
-public class LRUCache<K, V> extends LinkedHashMap<K, V> {
+public class LRUCache`<K, V>` extends LinkedHashMap`<K, V>` {
     private final int maxCapacity;
 
     public LRUCache(int maxCapacity) {
@@ -186,7 +186,7 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     }
 
     @Override
-    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+    protected boolean removeEldestEntry(Map.Entry`<K, V>` eldest) {
         return size() > maxCapacity; // 超出容量时移除最旧节点
     }
 }

@@ -26,21 +26,21 @@ public class MonitorCaffeineController {
 
     @GetMapping("cacheNames")
     @ApiOperation("所有缓存name")
-    public Collection<String> cacheNames() {
+    public Collection`<String>` cacheNames() {
 
         return caffeine.getCacheNames();
     }
 
     @GetMapping("stats")
     @ApiOperation("根据缓存name查询缓存监控信息")
-    public Map<String, Object> stats(@RequestParam String cacheName) {
+    public Map`<String, Object>` stats(@RequestParam String cacheName) {
         CaffeineCache caffeineCache = (CaffeineCache) caffeine.getCache(cacheName);
         CacheStats stats = CacheStats.empty();
         if (caffeineCache != null) {
             stats = caffeineCache.getNativeCache().stats();
         }
 
-        Map<String, Object> map = new HashMap<>(16);
+        Map`<String, Object>` map = new HashMap<>(16);
         map.put("请求次数", stats.requestCount());
         map.put("命中次数", stats.hitCount());
         map.put("未命中次数", stats.missCount());
@@ -66,7 +66,7 @@ public class MonitorCaffeineController {
 ```java
 public class CaffeineController {
 
-    private static final Cache<String, Object> CAFFEINE_CACHE = Caffeine.newBuilder()
+    private static final Cache`<String, Object>` CAFFEINE_CACHE = Caffeine.newBuilder()
             .initialCapacity(256)
             // 保存缓存数量
             .maximumSize(100)
@@ -119,17 +119,17 @@ public class LocalCache {
 ```java
 public class CaffeineCacheManager implements CacheManager {
 
-    private Caffeine<Object, Object> cacheBuilder = Caffeine.newBuilder();
+    private Caffeine`<Object, Object>` cacheBuilder = Caffeine.newBuilder();
 
-    private final Map<String, Cache> cacheMap = new ConcurrentHashMap<>(16);
+    private final Map`<String, Cache>` cacheMap = new ConcurrentHashMap<>(16);
 
-    public void setCaffeine(Caffeine<Object, Object> caffeine) {
+    public void setCaffeine(Caffeine`<Object, Object>` caffeine) {
         Assert.notNull(caffeine, "Caffeine must not be null");
         doSetCaffeine(caffeine);
     }
 
     // 3. *.caffeine.*.Cache 绑定名字并转化成 CaffeineCache
-    protected Cache adaptCaffeineCache(String name, com.github.benmanes.caffeine.cache.Cache<Object, Object> cache) {
+    protected Cache adaptCaffeineCache(String name, com.github.benmanes.caffeine.cache.Cache`<Object, Object>` cache) {
         return new CaffeineCache(name, cache, isAllowNullValues());
     }
 
@@ -142,7 +142,7 @@ public class CaffeineCacheManager implements CacheManager {
 
     // 1. 这一步用了 cacheBuilder.build()
     // 这个 *.caffeine.*.Cache 就是要找的，也不知道这个 name 是干啥的，打个断点看看
-    protected com.github.benmanes.caffeine.cache.Cache<Object, Object> createNativeCaffeineCache(String name) {
+    protected com.github.benmanes.caffeine.cache.Cache`<Object, Object>` createNativeCaffeineCache(String name) {
         return (this.cacheLoader != null ? this.cacheBuilder.build(this.cacheLoader) : this.cacheBuilder.build());
     }
 
@@ -171,7 +171,7 @@ public interface CacheManager {
     @Nullable
     Cache getCache(String name);
 
-    Collection<String> getCacheNames();
+    Collection`<String>` getCacheNames();
 }
 ```
 

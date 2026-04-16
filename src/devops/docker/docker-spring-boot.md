@@ -100,7 +100,7 @@ ENTRYPOINT ["java", "-Xmx4G", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPa
             <configuration>
                 <repository>amos/${project.artifactId}</repository>
                 <buildArgs>
-                    <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    `<JAR_FILE>`target/${project.build.finalName}.jar</JAR_FILE>
                 </buildArgs>
             </configuration>
         </plugin>

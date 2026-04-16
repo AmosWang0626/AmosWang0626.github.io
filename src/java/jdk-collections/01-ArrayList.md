@@ -118,11 +118,11 @@ private Object[] grow(int minCapacity) {
 }
 
 // 附 Arrays.copyOf() 源码，底层还是掉 native 方法 System.arraycopy 实现。
-public static <T> T[] copyOf(T[] original, int newLength) {
+public static `<T>` T[] copyOf(T[] original, int newLength) {
     return (T[]) copyOf(original, newLength, original.getClass());
 }
 
-public static <T,U> T[] copyOf(U[] original, int newLength, Class<? extends T[]> newType) {
+public static `<T,U>` T[] copyOf(U[] original, int newLength, Class<? extends T[]> newType) {
     T[] copy = ((Object)newType == (Object)Object[].class)
         ? (T[]) new Object[newLength]
         : (T[]) Array.newInstance(newType.getComponentType(), newLength);
@@ -192,7 +192,7 @@ ArrayList 内部有两个迭代器
 ```java
 // 通过游标的移动，实现数据的遍历。
 // 迭代器执行的过程中，通过 modCount、elementData.length 来校验是否有并发修改。
-private class Itr implements Iterator<E> {
+private class Itr implements Iterator`<E>` {
     int cursor;       // index of next element to return
     int lastRet = -1; // index of last element returned; -1 if no such
     int expectedModCount = modCount;
@@ -260,17 +260,17 @@ private class Itr implements Iterator<E> {
 #### 5.2 迭代器2：listIterator()
 
 ```java
-public ListIterator<E> listIterator() {
+public ListIterator`<E>` listIterator() {
     return new ListItr(0);
 }
 
 // 指定迭代的起点
-public ListIterator<E> listIterator(int index) {
+public ListIterator`<E>` listIterator(int index) {
     rangeCheckForAdd(index);
     return new ListItr(index);
 }
 
-private class ListItr extends Itr implements ListIterator<E> {
+private class ListItr extends Itr implements ListIterator`<E>` {
     ListItr(int index) {
         super();
         cursor = index;

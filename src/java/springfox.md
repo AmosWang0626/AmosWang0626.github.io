@@ -16,13 +16,13 @@ tag:
 ## 一、Webflux
 1. 引入依赖
 
-    ```xml
+```xml
     <properties>
         <swagger.version>2.10.5</swagger.version>
     </properties>
-    ```
+```
     
-    ```xml
+```xml
     <dependencies>
         <dependency>
              <groupId>io.springfox</groupId>
@@ -40,7 +40,7 @@ tag:
             <version>${swagger.version}</version>
         </dependency>
     </dependencies>
-    ```
+```
 
 2. 添加注解
 
@@ -56,13 +56,13 @@ tag:
 
 1. 引入依赖
 
-    ```xml
+```xml
     <properties>
         <swagger.version>2.10.5</swagger.version>
     </properties>
-    ```
+```
     
-    ```xml
+```xml
     <dependencies>
         <dependency>
              <groupId>io.springfox</groupId>
@@ -80,7 +80,7 @@ tag:
             <version>${swagger.version}</version>
         </dependency>
     </dependencies>
-    ```
+```
 
 2. 添加注解
 

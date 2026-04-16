@@ -22,8 +22,8 @@ tag:
 ## 基础参数
 
 ```java
-public class HashMap<K, V> extends AbstractMap<K, V>
-        implements Map<K, V>, Cloneable, Serializable {
+public class HashMap`<K, V>` extends AbstractMap`<K, V>`
+        implements Map`<K, V>`, Cloneable, Serializable {
 
     /* 默认容量 16 */
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
@@ -86,11 +86,11 @@ static final int hash(Object key) {
 ```
 
 ```java
-public class HashMap<K, V> {
+public class HashMap`<K, V>` {
     final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                    boolean evict) {
-        Node<K, V>[] tab;
-        Node<K, V> p;
+        Node`<K, V>`[] tab;
+        Node`<K, V>` p;
         int n, i;
         // 这里可以说明，HashMap并不是new出来就会初始化的，resize时初始化的
         if ((tab = table) == null || (n = tab.length) == 0)
@@ -116,15 +116,15 @@ public class HashMap<K, V> {
 > [老生常谈，HashMap的死循环-占小狼](https://www.jianshu.com/p/1e9cf0ac07f4)
 
 ```java
-public class HashMap<K, V> {
+public class HashMap`<K, V>` {
     /**
      * Transfers all entries from current table to newTable.
      */
     void transfer(Entry[] newTable, boolean rehash) {
         int newCapacity = newTable.length;
-        for (Entry<K, V> e : table) {
+        for (Entry`<K, V>` e : table) {
             while (null != e) {
-                Entry<K, V> next = e.next;
+                Entry`<K, V>` next = e.next;
                 if (rehash) {
                     e.hash = null == e.key ? 0 : hash(e.key);
                 }

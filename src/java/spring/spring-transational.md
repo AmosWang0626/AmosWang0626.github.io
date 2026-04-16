@@ -23,7 +23,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Transactional(rollbackFor = Throwable.class)
     @Override
-    public CommonResponse<NoteEntity> save(NoteEntity note) {
+    public CommonResponse`<NoteEntity>` save(NoteEntity note) {
         // 一系列 DB 操作
 
         try {

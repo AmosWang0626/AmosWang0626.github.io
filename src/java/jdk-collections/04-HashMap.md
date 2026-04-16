@@ -26,7 +26,7 @@ HashMap 是基于数组 + 链表/红黑树实现的，支持自动扩容。
 
 > 本文结合 JDK 17 的源码展开，与 JDK 1.8 之前的版本有差异（数组+链表实现，同时头插法并发操作有死循环的风险）
 
-HashMap 默认以 Node<K,V>[] table 数组存储数据，每个桶（bucket）是链表或红黑树。
+HashMap 默认以 Node`<K,V>`[] table 数组存储数据，每个桶（bucket）是链表或红黑树。
 
 - 链表长度超过 8 且数组容量 ≥ 64 时，链表转为红黑树（时间复杂度优化为 O(log n)）。
 
@@ -36,13 +36,13 @@ HashMap 默认以 Node<K,V>[] table 数组存储数据，每个桶（bucket）�
 用于存储键值对，是 HashMap 的基本单元。
 
 ```java
-static class Node<K,V> implements Map.Entry<K,V> {
+static class Node`<K,V>` implements Map.Entry`<K,V>` {
     final int hash; // 键的哈希值
     final K key;    // 键
     V value;        // 值
-    Node<K,V> next; // 下一个节点（链表结构）
+    Node`<K,V>` next; // 下一个节点（链表结构）
 
-    Node(int hash, K key, V value, Node<K,V> next) {
+    Node(int hash, K key, V value, Node`<K,V>` next) {
         this.hash = hash;
         this.key = key;
         this.value = value;
@@ -57,11 +57,11 @@ static class Node<K,V> implements Map.Entry<K,V> {
 TreeNode 是 Node 的子类，定义如下：
 
 ```java
-static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
-    TreeNode<K,V> parent;  // 父节点
-    TreeNode<K,V> left;    // 左子节点
-    TreeNode<K,V> right;   // 右子节点
-    TreeNode<K,V> prev;    // 前驱节点
+static final class TreeNode`<K,V>` extends LinkedHashMap.Entry`<K,V>` {
+    TreeNode`<K,V>` parent;  // 父节点
+    TreeNode`<K,V>` left;    // 左子节点
+    TreeNode`<K,V>` right;   // 右子节点
+    TreeNode`<K,V>` prev;    // 前驱节点
     boolean red;           // 节点颜色（红/黑）
 }
 ```
@@ -69,8 +69,8 @@ static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
 ## 2. 核心参数
 
 ```java
-public class HashMap<K, V> extends AbstractMap<K, V>
-        implements Map<K, V>, Cloneable, Serializable {
+public class HashMap`<K, V>` extends AbstractMap`<K, V>`
+        implements Map`<K, V>`, Cloneable, Serializable {
 
     /* 默认初始化容量 16，也即数组的长度 - 必须是两个倍数。 */
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
@@ -91,10 +91,10 @@ public class HashMap<K, V> extends AbstractMap<K, V>
     static final int MIN_TREEIFY_CAPACITY = 64;
 
     /** 核心数组 */
-    transient Node<K,V>[] table;
+    transient Node`<K,V>`[] table;
 
     /** entrySet() 结果的缓存 */
-    transient Set<Map.Entry<K,V>> entrySet;
+    transient Set<Map.Entry`<K,V>`> entrySet;
 
     /** HashMap中元素数量 */
     transient int size;
@@ -184,17 +184,17 @@ public V put(K key, V value) {
 }
 
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
-    Node<K,V>[] tab; Node<K,V> p; int n, i;
+    Node`<K,V>`[] tab; Node`<K,V>` p; int n, i;
     if ((tab = table) == null || (n = tab.length) == 0)
         n = (tab = resize()).length; // 初始化并扩容
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null); // 直接插入
     else {
-        Node<K,V> e; K k;
+        Node`<K,V>` e; K k;
         if (p.hash == hash && ((k = p.key) == key || (key != null && key.equals(k))))
             e = p; // 键相同，更新值
         else if (p instanceof TreeNode)
-            e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value); // 红黑树插入
+            e = ((TreeNode`<K,V>`)p).putTreeVal(this, tab, hash, key, value); // 红黑树插入
         else {
             for (int binCount = 0; ; ++binCount) {
                 if ((e = p.next) == null) {
@@ -233,8 +233,8 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 - 将旧数组中的元素重新分配到新数组。
 
 ```java
-final Node<K,V>[] resize() {
-    Node<K,V>[] oldTab = table;
+final Node`<K,V>`[] resize() {
+    Node`<K,V>`[] oldTab = table;
     int oldCap = (oldTab == null) ? 0 : oldTab.length; // 旧容量，数组长度
     int oldThr = threshold; // 旧阈值
     int newCap, newThr = 0;
@@ -259,22 +259,22 @@ final Node<K,V>[] resize() {
                   (int)ft : Integer.MAX_VALUE);
     }
     threshold = newThr;
-    Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap]; // 扩容
+    Node`<K,V>`[] newTab = (Node`<K,V>`[])new Node[newCap]; // 扩容
     table = newTab;
     if (oldTab != null) {
         for (int j = 0; j < oldCap; ++j) {
-            Node<K,V> e;
+            Node`<K,V>` e;
             if ((e = oldTab[j]) != null) {
                 oldTab[j] = null;
                 if (e.next == null)
                     newTab[e.hash & (newCap - 1)] = e;
                 else if (e instanceof TreeNode) // 红黑树扩容
                     // 扩容后，红黑树类似链表的处理，也是拆成两个。还会判断要不要转成链表
-                    ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                    ((TreeNode`<K,V>`)e).split(this, newTab, j, oldCap);
                 else { // 链表扩容
-                    Node<K,V> loHead = null, loTail = null;
-                    Node<K,V> hiHead = null, hiTail = null;
-                    Node<K,V> next;
+                    Node`<K,V>` loHead = null, loTail = null;
+                    Node`<K,V>` hiHead = null, hiTail = null;
+                    Node`<K,V>` next;
                     do {
                         next = e.next;
                         if ((e.hash & oldCap) == 0) { // 因为每次扩容都是前一次的2倍，通过高位与运算0/1判断节点放高位还是低位，避免rehash，提高性能
@@ -317,19 +317,19 @@ final Node<K,V>[] resize() {
 
 ```java
 public V get(Object key) {
-    Node<K,V> e;
+    Node`<K,V>` e;
     return (e = getNode(hash(key), key)) == null ? null : e.value;
 }
 
-final Node<K,V> getNode(int hash, Object key) {
-    Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
+final Node`<K,V>` getNode(int hash, Object key) {
+    Node`<K,V>`[] tab; Node`<K,V>` first, e; int n; K k;
     if ((tab = table) != null && (n = tab.length) > 0 &&
         (first = tab[(n - 1) & hash]) != null) { // 根据hash定位数组中的位置，且该位置不为空
         if (first.hash == hash && ((k = first.key) == key || (key != null && key.equals(k))))
             return first;
         if ((e = first.next) != null) {
             if (first instanceof TreeNode)
-                return ((TreeNode<K,V>)first).getTreeNode(hash, key);
+                return ((TreeNode`<K,V>`)first).getTreeNode(hash, key);
             do {
                 if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k))))
                     return e;
@@ -385,9 +385,9 @@ public static int numberOfLeadingZeros(int i) {
 JDK 1.7 的 `HashMap` 在扩容时，使用**头插法**将旧链表的元素迁移到新链表：
 ```java
 void transfer(Entry[] newTable) {
-    for (Entry<K,V> e : table) {
+    for (Entry`<K,V>` e : table) {
         while (e != null) {
-            Entry<K,V> next = e.next;
+            Entry`<K,V>` next = e.next;
             int newIndex = hash(e.key) & (newCapacity - 1);
             e.next = newTable[newIndex]; // 头插法
             newTable[newIndex] = e;
@@ -421,7 +421,7 @@ void transfer(Entry[] newTable) {
 ```java
 // JDK 1.7 的 get 方法
 public V get(Object key) {
-    Entry<K,V> e = getEntry(key);
+    Entry`<K,V>` e = getEntry(key);
     // 遍历链表时若存在环，永远无法退出循环
     while (e != null) {
         if (e.hash == hash && eq(key, e.key)) return e.value;

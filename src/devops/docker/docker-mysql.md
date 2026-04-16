@@ -37,12 +37,12 @@ tag:
     - `flush privileges;`
 
 8. Navicat connect
-    ```yaml
+```yaml
     ip: localhost
     port: 3306
     username: root
     password: @Qwert123
-    ```
+```
 
 ## 附录
 

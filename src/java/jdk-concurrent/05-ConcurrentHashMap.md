@@ -37,11 +37,11 @@ order: 5
 
 ### **1. Node 节点**
 ```java
-static class Node<K,V> implements Map.Entry<K,V> {
+static class Node`<K,V>` implements Map.Entry`<K,V>` {
     final int hash;
     final K key;
     volatile V val;       // volatile 保证可见性
-    volatile Node<K,V> next; // volatile 保证可见性
+    volatile Node`<K,V>` next; // volatile 保证可见性
     // ...
 }
 ```
@@ -50,11 +50,11 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 ### **2. TreeNode（红黑树节点）**
 ```java
-static final class TreeNode<K,V> extends Node<K,V> {
-    TreeNode<K,V> parent;  
-    TreeNode<K,V> left;
-    TreeNode<K,V> right;
-    TreeNode<K,V> prev;    // 删除时需断链
+static final class TreeNode`<K,V>` extends Node`<K,V>` {
+    TreeNode`<K,V>` parent;  
+    TreeNode`<K,V>` left;
+    TreeNode`<K,V>` right;
+    TreeNode`<K,V>` prev;    // 删除时需断链
     boolean red;
     // ...
 }
@@ -64,9 +64,9 @@ static final class TreeNode<K,V> extends Node<K,V> {
 
 ### **3. ForwardingNode（扩容标记节点）**
 ```java
-static final class ForwardingNode<K,V> extends Node<K,V> {
-    final Node<K,V>[] nextTable;
-    ForwardingNode(Node<K,V>[] tab) {
+static final class ForwardingNode`<K,V>` extends Node`<K,V>` {
+    final Node`<K,V>`[] nextTable;
+    ForwardingNode(Node`<K,V>`[] tab) {
         super(MOVED, null, null, null); // hash 标记为 MOVED
         this.nextTable = tab;
     }
@@ -81,8 +81,8 @@ static final class ForwardingNode<K,V> extends Node<K,V> {
 
 ### **1. 初始化表（initTable）**
 ```java
-private final Node<K,V>[] initTable() {
-    Node<K,V>[] tab; int sc;
+private final Node`<K,V>`[] initTable() {
+    Node`<K,V>`[] tab; int sc;
     while ((tab = table) == null || tab.length == 0) {
         if ((sc = sizeCtl) < 0) // sizeCtl < 0 表示其他线程正在初始化
             Thread.yield(); // 让出 CPU，等待初始化完成
@@ -91,7 +91,7 @@ private final Node<K,V>[] initTable() {
                 // 实际初始化逻辑（设置表大小和阈值）
                 if ((tab = table) == null || tab.length == 0) {
                     int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
-                    Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n];
+                    Node`<K,V>`[] nt = (Node`<K,V>`[])new Node<?,?>[n];
                     table = tab = nt;
                     sc = n - (n >>> 2); // 计算阈值（0.75n）
                 }
@@ -112,13 +112,13 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
     if (key == null || value == null) throw new NullPointerException();
     int hash = spread(key.hashCode()); // 计算哈希
     int binCount = 0;
-    for (Node<K,V>[] tab = table;;) {
-        Node<K,V> f; int n, i, fh;
+    for (Node`<K,V>`[] tab = table;;) {
+        Node`<K,V>` f; int n, i, fh;
         if (tab == null || (n = tab.length) == 0)
             tab = initTable(); // 懒初始化
         else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
             // CASE 1: 目标桶为空，CAS 插入新节点
-            if (casTabAt(tab, i, null, new Node<K,V>(hash, key, value)))
+            if (casTabAt(tab, i, null, new Node`<K,V>`(hash, key, value)))
                 break;
         } else if ((fh = f.hash) == MOVED)
             // CASE 2: 当前桶正在扩容，协助迁移
@@ -130,7 +130,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                 if (tabAt(tab, i) == f) { // 再次确认节点未被修改
                     if (fh >= 0) { // 处理链表
                         binCount = 1;
-                        for (Node<K,V> e = f;; ++binCount) {
+                        for (Node`<K,V>` e = f;; ++binCount) {
                             K ek;
                             if (e.hash == hash && ((ek = e.key) == key || (ek != null && key.equals(ek)))) {
                                 oldVal = e.val;
@@ -138,9 +138,9 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                                     e.val = value;
                                 break;
                             }
-                            Node<K,V> pred = e;
+                            Node`<K,V>` pred = e;
                             if ((e = e.next) == null) { // 插入到链表尾部
-                                pred.next = new Node<K,V>(hash, key, value);
+                                pred.next = new Node`<K,V>`(hash, key, value);
                                 break;
                             }
                         }
@@ -168,7 +168,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 ### **3. get：读操作无锁**
 ```java
 public V get(Object key) {
-    Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
+    Node`<K,V>`[] tab; Node`<K,V>` e, p; int n, eh; K ek;
     int h = spread(key.hashCode());
     if ((tab = table) != null && (n = tab.length) > 0 &&
         (e = tabAt(tab, (n - 1) & h)) != null) { // 无锁访问桶头节点
@@ -193,7 +193,7 @@ public V get(Object key) {
 
 ### **1. transfer：数据迁移**
 ```java
-private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
+private final void transfer(Node`<K,V>`[] tab, Node`<K,V>`[] nextTab) {
     int n = tab.length, stride;
     // 计算每个线程处理的桶区间（步长 stride）
     if ((stride = (NCPU > 1) ? (n >>> 3) / NCPU : n) < MIN_TRANSFER_STRIDE)
@@ -202,13 +202,13 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
         // ...
     }
     int nextn = nextTab.length;
-    ForwardingNode<K,V> fwd = new ForwardingNode<K,V>(nextTab); // 标记节点
+    ForwardingNode`<K,V>` fwd = new ForwardingNode`<K,V>`(nextTab); // 标记节点
     boolean advance = true;
     boolean finishing = false; // 迁移完成标志
 
     // 分片迁移逻辑
     for (int i = 0, bound = 0;;) {
-        Node<K,V> f; int fh;
+        Node`<K,V>` f; int fh;
         while (advance) {
             // 分配任务区间 [bound, i)
             if (--i >= bound || finishing)
@@ -234,7 +234,7 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
             synchronized (f) { // 锁住桶头节点
                 // 迁移链表或树到新表
                 if (tabAt(tab, i) == f) {
-                    Node<K,V> ln, hn;
+                    Node`<K,V>` ln, hn;
                     if (fh >= 0) { // 链表迁移
                         // ... 拆分链表到高位桶和低位桶 ...
                         setTabAt(nextTab, i, ln);
@@ -254,10 +254,10 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
 
 ### **2. helpTransfer：协作迁移**
 ```java
-final Node<K,V>[] helpTransfer(Node<K,V>[] tab, Node<K,V> f) {
-    Node<K,V>[] nextTab; int sc;
+final Node`<K,V>`[] helpTransfer(Node`<K,V>`[] tab, Node`<K,V>` f) {
+    Node`<K,V>`[] nextTab; int sc;
     if (tab != null && (f instanceof ForwardingNode) &&
-        (nextTab = ((ForwardingNode<K,V>)f).nextTable) != null) {
+        (nextTab = ((ForwardingNode`<K,V>`)f).nextTable) != null) {
         int rs = resizeStamp(tab.length);
         while (nextTab == nextTable && table == tab && (sc = sizeCtl) < 0) {
             // 判断是否需要协助

@@ -1,7 +1,5 @@
 ---
 title: Java基础知识
-index: false
-icon: java
 category:
   - Java基础
 order: 3

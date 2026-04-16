@@ -23,7 +23,7 @@ tag:
 
   - /opt/data/docker（宿主机目录）：/var/lib/registry（容器内目录）
 
-  ```json
+```json
   "Mounts": [
     {
     "Type": "bind",
@@ -34,7 +34,7 @@ tag:
     "Propagation": "rprivate"
     }
   ],
-  ```
+```
   - 验证是否挂载上了
     - 对比下宿主机`/opt/data/docker`目录 和 容器`/var/lib/registry`目录
     - 进入容器`docker exec -it dockerhub sh`
@@ -60,7 +60,7 @@ tag:
 
 - https 域名，配置 nginx 映射至宿主机 5000 端口
 
-  ```nginx
+```nginx
   server {
       listen       443 ssl;
       listen       [::]:443 ssl;
@@ -82,4 +82,4 @@ tag:
       }
   
   }
-  ```
+```

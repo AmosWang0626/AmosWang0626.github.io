@@ -24,14 +24,14 @@ tag:
     - `sync && echo 3 > /proc/sys/vm/drop_caches`
 
 4. [内核官方文档](https://www.kernel.org/doc/Documentation/sysctl/vm.txt)
-    ```text
+```text
     To free pagecache:
     echo 1 > /proc/sys/vm/drop_caches
     To free reclaimable slab objects (includes dentries and inodes):
     echo 2 > /proc/sys/vm/drop_caches
     To free slab objects and pagecache:
     echo 3 > /proc/sys/vm/drop_caches
-    ```
+```
     - inode 是表示文件的数据结构（下文详细介绍）
     - dentries 是表示目录的数据结构
 

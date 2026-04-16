@@ -1,5 +1,5 @@
 ---
-title: 框架相关 spring-boot
+title: Spring Boot 项目启动方式
 date: 2019-01-01
 category:
   - 框架相关

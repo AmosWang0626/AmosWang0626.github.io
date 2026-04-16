@@ -239,7 +239,7 @@ public class SpringUtil {
 		return (T) context.getBean(beanId);
 	}
 
-	public static <T extends Object> T getBean(Class<T> clazz) {
+	public static <T extends Object> T getBean(Class`<T>` clazz) {
 
 		return context.getBean(clazz);
 	}
@@ -273,7 +273,7 @@ public class SpringUtil {
 	}
 
 	// 根据bean的class得到bean实例
-	public static <T extends Object> T getBean(Class<T> clazz) {
+	public static <T extends Object> T getBean(Class`<T>` clazz) {
 
 		return context.getBean(clazz);
 	}
@@ -334,7 +334,7 @@ public class TestAware implements ApplicationContextAware, BeanNameAware {
 
 		System.out.println("TestMain--getBean:" + code);
 	}
-```	
+```
 
 自动装配
 ```
@@ -365,7 +365,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 }
-```
+``
 
 常用的有三种装配方式，一种是byName，一种是byType，最后一种是。
 
@@ -441,16 +441,16 @@ default-autowire="constructor"
 但是，每个类中只能有一个构造器被标记为required=true
 此时，@Autowired的必要属性，建议使用@Required注解
 
-对于@Autowired还有自动装配到相应的List<BeanInter>,或者Map<String,BeanInter>.
-此时，还可以进行Order排序,这个只对List<BeanInter>有效
+对于@Autowired还有自动装配到相应的`List<BeanInter>`,或者`Map<String,BeanInter>`.
+此时，还可以进行Order排序,这个只对`List<BeanInter>`有效
 
 Map遍历
 
-for (Map.Entry<String, BeanInter> entry : map.entrySet()) {
+for (`Map.Entry<String, BeanInter>` entry : map.entrySet()) {
 		System.out.println(entry.getKey() + "   " + entry.getValue().getClass().getName());
 }
 
-    Map.Entry<K,V> 是map集合中的一个Map实体，包括key,value;
+    `Map.Entry<K,V>` 是map集合中的一个Map实体，包括key,value;
     map.entrySer() 的返回值是map的集合。
     map.keySet() 返回的是所有的key集合
     

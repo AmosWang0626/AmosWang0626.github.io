@@ -87,9 +87,9 @@ INSERT INTO `org_user` VALUES ('1015', 'murf', '慕容复', '21');
 4. 复合索引，查询条件不满足索引最左原则，不会命中索引
    - `ALTER TABLE user ADD INDEX index_name (name,age,status);`
    - 注意下边两句，最左原则不是查询条件的顺序，而是索引字段顺序
-   - ```EXPLAIN SELECT * FROM `org_user` WHERE `NAME` = '宋远桥' AND USERNAME = 'song';```
-   - ```EXPLAIN SELECT * FROM `org_user` WHERE USERNAME = 'song' AND `NAME` = '宋远桥';```
-   - 反例：```EXPLAIN SELECT * FROM `org_user` WHERE `NAME` = '宋远桥';```
+   - ```EXPLAIN SELECT * FROM `org_user` WHERE `NAME` = '宋远桥' AND USERNAME = 'song';`
+   - `EXPLAIN SELECT * FROM `org_user` WHERE USERNAME = 'song' AND `NAME` = '宋远桥';`
+   - 反例：`EXPLAIN SELECT * FROM `org_user` WHERE `NAME` = '宋远桥';```
 
 5. union、in、or都能够命中索引，建议使用in
    - union：`EXPLAIN SELECT * FROM org_user WHERE USERNAME = 'wang' UNION ALL SELECT * FROM org_user WHERE USERNAME = 'song';`
@@ -104,11 +104,11 @@ INSERT INTO `org_user` VALUES ('1015', 'murf', '慕容复', '21');
 7. 负向条件查询不能使用索引，可以优化为in查询
    > 负向条件有：!=、<>、not in、not exists、not like等。测试环境：MySQL 8.0
    - 经测试 `!=、<>、not in` 可以命中索引：
-        - ```EXPLAIN SELECT * FROM org_user WHERE `USERNAME` != 'wang';```
-        - ```EXPLAIN SELECT * FROM org_user WHERE `USERNAME` <> 'wang';```
-        - ```EXPLAIN SELECT * FROM org_user WHERE `USERNAME` not in ('wang', 'admin');```
+        - ```EXPLAIN SELECT * FROM org_user WHERE `USERNAME` != 'wang';`
+        - `EXPLAIN SELECT * FROM org_user WHERE `USERNAME` <> 'wang';`
+        - `EXPLAIN SELECT * FROM org_user WHERE `USERNAME` not in ('wang', 'admin');```
    - 负向条件 `not like、not exists` 不能命中缓存：
-     - ```EXPLAIN SELECT * FROM org_user WHERE NOT EXISTS (SELECT * FROM org_user WHERE USERNAME = 'wang');```
+     - `EXPLAIN SELECT * FROM org_user WHERE NOT EXISTS (SELECT * FROM org_user WHERE USERNAME = 'wang');`
      > EXISTS 语法：如上，如果子句返回 true，则查询全部；如果返回 false，则查询结果为空
 
 8. 范围条件查询可以命中索引

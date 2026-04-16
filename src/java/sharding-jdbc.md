@@ -22,14 +22,14 @@ tag:
 
 3. 依赖
 
-   ```xml
+```xml
    <!-- spring-boot-starter -->
    <dependency>
        <groupId>org.apache.shardingsphere</groupId>
        <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
        <version>5.0.0-alpha</version>
    </dependency>
-   ```
+```
 
 4. 友情提示
 
@@ -96,17 +96,17 @@ spring.shardingsphere.rules.sharding.key-generators.snowflake.props.worker-id=12
 
 - INLINE（标准分片算法-行表达式）
 
-    ```properties
+```properties
     spring.shardingsphere.rules.sharding.sharding-algorithms.id-inline.type=INLINE
     spring.shardingsphere.rules.sharding.sharding-algorithms.id-inline.props.algorithm-expression=dev_short_url_$->{id % 2}
-    ```
+```
 
 - HASH_MOD（自动分片算法-哈希取模分片算法）
 
-    ```properties
+```properties
     spring.shardingsphere.rules.sharding.sharding-algorithms.id-hash.type=HASH_MOD
     spring.shardingsphere.rules.sharding.sharding-algorithms.id-hash.props.sharding-count=2
-    ```
+```
 
 ## 参考
 

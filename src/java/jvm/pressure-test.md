@@ -8,7 +8,7 @@ index: false
 
 ## Siege
 
-```shell script
+`shell script
 #开始为期1分钟  200并发的请求百度
 siege -c 200 -t 1 www.baidu.com
 ```

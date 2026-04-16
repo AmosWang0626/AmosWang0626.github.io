@@ -97,19 +97,19 @@ hexo server
 
 #### 1. 安装主题
 
-   ```shell
+```shell
    npm install --save hexo-theme-fluid
-   ```
+```
 
    然后在博客目录下创建 _config.fluid.yml，将主题的 _config.yml 内容复制进去。
 
 
 #### 2. 指定主题(如下修改 Hexo 博客目录中的 _config.yml)
 
-   ```yaml
+```yaml
    theme: fluid # 指定主题
    language: zh-CN # 指定语言，会影响主题显示的语言，按需修改
-   ```
+```
 
 #### 3、将自己写作的内容放到指定目录
 

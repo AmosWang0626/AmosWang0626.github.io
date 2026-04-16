@@ -62,7 +62,7 @@ tag:
 - 从左插入到列表 `lpush citys beijing shanghai guangzhou tianjin dengzhou`
 - 从右插入到列表 `rpush citys shenzhen zhengzhou`
 - 获取这个列表 `lrange citys 0 -1`
-    ```text
+```text
     1) "dengzhou"
     2) "tianjin"
     3) "guangzhou"
@@ -70,7 +70,7 @@ tag:
     5) "beijing"
     6) "shenzhen"
     7) "zhengzhou"
-    ```
+```
 - 列表数量 `llen citys`
 - 从左弹出第一个元素 `lpop citys` "dengzhou"
 - 从右弹出第一个元素 `rpop citys` "zhengzhou"
@@ -103,7 +103,7 @@ tag:
 - 一个大的bit集合，其中 1字节=8位(1byte=8bit)
 - 具体操作如下: `setbit`/`getbit`/`bitpos`/`bitcount`
 
-    ```shell script
+    `shell script
     redis> setbit bit888 1 1
     (integer) 0
     redis> setbit bit888 3 1
@@ -125,7 +125,7 @@ tag:
     (integer) 3
     redis> bitcount bit888 0 0
     (integer) 3
-    ```
+```
 
 ## 7、HyperLogLog基数统计的算法
 > HyperLogLog是Redis的高级数据结构，它在做基数统计的时候非常有用，每个HyperLogLog的键可以计算接近2^64不同元素的基数，而大小只需要12KB。
@@ -135,7 +135,7 @@ tag:
 - 合并 `pfmerge db nosql sql`
 - 计算COUNT `pfcount db`
 - 具体操作如下
-    ```shell script
+    `shell script
     redis> pfadd nosql redis mongodb
     (integer) 1
     redis> pfadd sql mysql oracle db2
@@ -148,7 +148,7 @@ tag:
     (integer) 3
     redis> pfcount nosql
     (integer) 2
-    ```
+```
 
 ## 8、GeoSpatial地理空间,索引半径查询
 

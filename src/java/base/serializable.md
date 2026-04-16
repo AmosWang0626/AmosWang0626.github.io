@@ -3,30 +3,53 @@ title: Java 序列化问题
 date: 2018-11-04
 category:
   - Java
-index: false
+tag:
+  - 序列化
 ---
 
-# Java 序列化问题
+# Java 序列化问题 - serialVersionUID 排查指南
 
-## 报错了
+## 问题现象
 
-![](serializable.png)
+```
+java.io.InvalidClassException: local class incompatible: 
+stream classdesc serialVersionUID = 1234567890, 
+local class serialVersionUID = 9876543210
+```
 
-KbsWebAuthenticationDetails 这个类，反序列化失败。
+**原因**：未显式声明 `serialVersionUID`，JDK 自动生成的 ID 在不同环境不一致。
 
-错误信息中有 serialVersionUID，那就是使用了 JDK 序列化。
+## 解决方案：从服务器提取 serialVersionUID
 
-## 定位问题原因
+### 步骤 1：找到编译后的 class 文件
 
-反序列化失败了，去看了对应的类，它的父类实现了序列化接口，但当前类没有加 serialVersionUID，这大概就是问题根源了。
+```bash
+# 在服务器上查找
+find /opt/app -name "KbsWebAuthenticationDetails.class"
+```
 
-划重点：**实现了序列化接口，一定要加 serialVersionUID，即便是父类实现的，子分类也要加。**
+### 步骤 2：提取 serialVersionUID
 
-## 继续分析
+```bash
+# 方法一：使用 serialver（推荐）
+serialver -classpath /opt/app/WEB-INF/classes com.example.KbsWebAuthenticationDetails
+# 输出：com.example.KbsWebAuthenticationDetails: static final long serialVersionUID = 1234567890L;
 
-既然没有加 serialVersionUID，那 jdk 会自动生成 serialVersionUID 吧，既然自动生成，那同一个类，自动生成的也应该是一样的吧？
+# 方法二：使用 javap
+javap -verbose -classpath /opt/app/WEB-INF/classes com.example.KbsWebAuthenticationDetails | grep serialVersionUID
+```
 
-带着这个疑问，后边继续展开~
+### 步骤 3：在代码中添加
 
-# 未完待续...
+```java
+public class KbsWebAuthenticationDetails extends WebAuthenticationDetails {
+    private static final long serialVersionUID = 1234567890L; // 从服务器提取的值
+    private String extraInfo;
+}
+```
 
+## 最佳实践
+
+1. **始终显式声明**：所有实现 `Serializable` 的类都要声明 `serialVersionUID`
+2. **使用有意义的值**：建议使用日期或版本号，如 `20240101L`
+3. **父类子类都要声明**：即使父类已实现序列化，子类也需要自己的 ID
