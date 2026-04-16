@@ -1,5 +1,5 @@
 ---
-title: 前端相关 vue
+title: 前端相关 Vue
 date: 2019-01-01
 category:
   - 前端相关

@@ -1,69 +1,73 @@
 ---
 icon: circle-info
-cover: /assets/images/cover3.jpeg
-
-# navbar: false
 sidebar: false
-
 breadcrumb: false
-# pageInfo: false
-# contributors: false
 editLink: false
-# lastUpdated: false
-# prev: false
-# next: false
-# comment: false
 footer: false
-# backtotop: false
 ---
 
-# 关于我
+# 关于 Dorian
 
-## 个人简介
+## 👋 Hello World
 
-本人从事 Java 开发工作，至今有将近7年的时间。
+> **终身学习，不教一日闲过**
 
-**座右铭**：Java程序员的笔记斋，不教一日闲过
+2018 年毕业 🎓 | Java 后端开发 | 某大厂 C端营销服务端
 
-## 技术栈
+在 AI 时代，我相信：**编码是基础，认知是上限**。Java 程序员的出路不在于写更多代码，而在于解决更复杂的问题。
 
-### 后端技术
-- **核心框架**：Spring、MyBatis
-- **阿里中间件**：HSF、MetaQ、SchedulerX、Switch、Diamond、TDDL
-- **大数据**：ODPS
-- **数据库**：MySQL、Redis、Oracle
-- **消息队列**：Kafka、RocketMQ
-- **分布式**：ZooKeeper、Dubbo
+保持好奇，持续学习，一起进步！🚀
 
-### 前端技术
-- **主流框架**：React（常用）、Vue
-- **基础技术**：JavaScript、jQuery、Node.js
-- **博客工具**：Hexo、VuePress
 
-### 运维与服务器
-- **操作系统**：主流 Linux 系统、树莓派
-- **容器化**：Docker、Kubernetes
-- **Web服务器**：Nginx
-- **版本控制**：Git
-- **构建工具**：Maven
+---
 
-## 博客理念
+## 💡 博客理念
 
-> 用进废退：博客不只是对外的，也是博主自己遇到问题时去翻阅的，查缺补漏，利人利己吧
+> **用进废退**：博客不只是分享，更是自己的知识库。查缺补漏，利人利己。
 
-本博客记录了我的技术学习历程和实践经验，涵盖：
+- 📖 **记录即学习**：写出来才能真正理解
+- 🔍 **深度 > 广度**：深入源码，理解本质
+- 🔄 **持续迭代**：技术更新，知识沉淀
+- 🤝 **开放共享**：开源精神，共同成长
 
-- 📚 **数据库**：MySQL、Redis、Oracle 等数据库的使用和优化
-- 🔧 **开发运维**：Docker、Linux、Nginx、Git 等运维技术
-- 🏗️ **开发框架**：Spring、MyBatis、ZooKeeper 等主流框架
-- 💻 **前端技术**：Vue、React、JavaScript 等前端开发
-- ☕ **Java技术**：JVM、并发编程、设计模式、数据结构
-- 💼 **面试专题**：常见面试题解析和实战经验
-- 💡 **技能感悟**：个人成长思考和职业发展
+---
 
-## 联系方式
+## 🛠️ 技术栈
 
-- **GitHub**：[AmosWang0626](https://github.com/AmosWang0626)
-- **开源中国**：[AmosWang](https://my.oschina.net/AmosWang)
-- **个人博客**：[eyeo.cn](https://eyeo.cn)
-- **Email**：info@daoyuan0626@gmail.com
+**后端**：Spring · MyBatis · HSF/Dubbo · MetaQ · SchedulerX · ODPS  
+**数据**：MySQL · Oracle · Redis（主从/哨兵/集群）· Elastic Search  
+**前端**：React · Vue · JavaScript · Node.js  
+**DevOps**：Docker · Kubernetes · Nginx · Linux · Git · Maven
+
+---
+
+## 📚 博客专题
+
+### ☕ Java 深度解析
+JDK 集合源码（HashMap/ConcurrentHashMap）· 并发编程（线程池/锁/JUC）· JVM 调优 · 设计模式
+
+### 🗄️ 数据库实践
+MySQL 索引优化 · SQL 调优 · Redis 高可用架构 · Oracle 存储过程
+
+### 🏗️ 框架与中间件
+Spring 核心原理 · MyBatis 源码 · ZooKeeper · Dubbo 分布式
+
+### 🚀 DevOps 实战
+Docker 容器化 · K8s 集群 · Linux 运维 · Nginx 优化
+
+### 💼 面试专题
+HashMap 底层原理 · ConcurrentHashMap 源码 · LeetCode Hot 100
+
+### 💡 成长感悟
+技术路线规划 · 职业发展 · 开源实践
+
+---
+
+## 📬 联系
+
+📧 daoyuan0626@gmail.com · 🌐 [www.eyeo.cn](https://www.eyeo.cn)  
+🐙 [GitHub](https://github.com/AmosWang0626) · 📝 [开源中国](https://my.oschina.net/AmosWang)
+
+---
+
+*感谢访问，欢迎交流！*

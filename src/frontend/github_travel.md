@@ -7,6 +7,6 @@ category:
   - 前端相关
 ---
 
-> [How to generate!](https://green-wall.vercel.app/)
+[How to generate!](https://green-wall.vercel.app/)
 
-![AmosWang0626](./assets/vuepress_github/AmosWang0626_contributions.png)
+![AmosWang0626](/AmosWang0626_contributions.png)

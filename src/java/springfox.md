@@ -1,5 +1,5 @@
 ---
-title: 上手 Swagger Webflux（v2.10.5）
+title: Swagger Webflux
 date: 2020-02-12
 category:
   - 框架相关
