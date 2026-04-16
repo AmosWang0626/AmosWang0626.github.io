@@ -1,7 +1,7 @@
 ---
-title: Java技术
+title: Java技术栈
 index: false
-icon: laptop-code
+icon: java
 cover: /assets/images/cover1.jpeg
 category:
   - Java技术

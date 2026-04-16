@@ -3,6 +3,11 @@ import { navbar } from "vuepress-theme-hope";
 export default navbar([
   "/",
   "/java/",
-  "/front/",
+  "/database/",
+  "/devops/",
+  "/framework/",
+  "/frontend/",
+  "/interview/",
+  "/skill/",
   "intro"
 ]);
