@@ -1,6 +1,7 @@
 ---
 title: Showdoc 结合 sqlite 重置密码
 date: 2020-12-30
+icon: gears
 category:
   - 框架相关
 tag:
