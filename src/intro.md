@@ -6,7 +6,7 @@ editLink: false
 footer: false
 ---
 
-# 关于 Dorian
+# 关于我
 
 ## 👋 Hello World
 

@@ -3,11 +3,11 @@ home: true
 layout: BlogHome
 icon: house
 title: 主页
-heroImage: /home/creativity.png
-heroImageDark: /home/creativity.png
+# heroImage: /home/creativity.png
+# heroImageDark: /home/creativity.png
 heroText: JAVA技术学习笔记
 bgImage: https://iamos.oss-cn-shanghai.aliyuncs.com/blog/default.jpeg
-heroFullScreen: true
+# heroFullScreen: true
 tagline: 千里之行，始于足下
 projects:
   - icon: folder-open

@@ -29,7 +29,7 @@ export default hopeTheme({
 
   // 博客相关
   blog: {
-    description: "Java 开发者",
+    description: "Java Coder",
     intro: "/intro.html",
     medias: {
       GitHub: "https://github.com/AmosWang0626",
