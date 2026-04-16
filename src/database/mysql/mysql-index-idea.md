@@ -18,7 +18,7 @@ tag:
 
 ## 建表、建索引
 
-```mysql
+```sql
 CREATE TABLE `hi_user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `hi_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ```
 
-```mysql
+```sql
 insert into hi_user(name, gender, age, description) value('amos01', 1, 21, 'this is desc 1');
 insert into hi_user(name, gender, age, description) value('amos02', 1, 22, 'this is desc 2');
 insert into hi_user(name, gender, age, description) value('amos03', 1, 23, 'this is desc 3');

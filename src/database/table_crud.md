@@ -54,7 +54,7 @@ update table_name set username = null, age = null where id = '1433233';
         <if test="endTime != null">AND CREATE_TIME <![CDATA[ <= ]]> #{endTime}</if>
     </where>
     ```
-    ```mysql
+    ```sql
     SELECT COUNT(*), run_time, (run_min * 60 + run_sec)
     FROM(
         SELECT
@@ -69,7 +69,7 @@ update table_name set username = null, age = null where id = '1433233';
         GROUP BY APPLY_NO ORDER BY CREATE_TIME DESC
     ) a GROUP BY run_time ORDER BY run_time DESC;
     ```
-    ```mysql
+    ```sql
     -- 当日
     SELECT DAY(NOW()) CURRENT_DAY;
     -- 当月 2019-09-09
@@ -99,7 +99,7 @@ update table_name set username = null, age = null where id = '1433233';
     ```
 
 4. 分组字段合并
-    ```mysql
+    ```sql
     SELECT
     phone.ID,
     phone.`NAME`,
@@ -124,7 +124,7 @@ update table_name set username = null, age = null where id = '1433233';
     ```
 
 7. CONCAT
-    ```mysql
+    ```sql
     SELECT CONCAT('姓名：',"张三",'，手机号：', "13066668888") MESSAGE;
     ```    
 
@@ -137,11 +137,11 @@ update table_name set username = null, age = null where id = '1433233';
 
 9. MySQL、SQL Server分页相关
   - MySQL
-    ```mysql
+    ```sql
     SELECT * FROM `amos_user` ORDER BY ID DESC LIMIT 0, 10;
     ```
   - SQL Server
-    ```tsql
+    ```sql
     -- 查询前10条
     SELECT TOP 10 * FROM amos_user;
     
@@ -160,7 +160,7 @@ update table_name set username = null, age = null where id = '1433233';
     ```
 
 10. COUNT(TYPE = 1 OR NULL) TYPE_COUNT
-    ```mysql
+    ```sql
     COUNT(TYPE = 1 OR NULL) TYPE_COUNT ... [optional: HAVING TYPE_COUNT > 0]
     ```
 

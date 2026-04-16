@@ -30,7 +30,7 @@ tag:
 
 ## 3、测试表SQL
 > 其中包含三个索引：（1）`ID` 主键索引；（2）`USERNAME` 列唯一索引；（3）`ID`,`USERNAME`,`NAME` 组合普通索引
-```mysql
+```sql
 CREATE TABLE `org_user` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `USERNAME` varchar(64) NOT NULL COMMENT '用户名',

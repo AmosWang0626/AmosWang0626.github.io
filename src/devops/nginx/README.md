@@ -197,7 +197,7 @@ yum install nginx-module-*
 > 前两天，每次打开都费很长时间，简直不能忍，深夜配置下～～
 
 ### 缓存配置如下，完整配置，没打码
-```conf
+```ini
 # 核心一句话
 proxy_cache_path /etc/nginx/cache levels=1:2 keys_zone=amos_cache:10m max_size=10g inactive=60m use_temp_path=off;
 

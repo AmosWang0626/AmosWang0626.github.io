@@ -23,7 +23,7 @@ tag:
 - 重启 `service mysqld restart`
 - 查看原始密码 `grep 'temporary password' /var/log/mysqld.log`
 - 设置新密码|设置Navicat支持的密码加密方式(MySQL8.0+密码默认加密方式非Navicat默认加密方式)
-    ```mysql
+    ```sql
     ALTER USER 'root'@'localhost' IDENTIFIED BY '#Qwert123' PASSWORD EXPIRE NEVER;
     ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '#Qwert123';
     flush privileges;
@@ -51,12 +51,12 @@ tag:
 
 ## 防止中文乱码
 1. 建库
-    ```mysql
+    ```sql
     CREATE DATABASE message
     CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
     ```
 2. 建表
-    ```mysql
+    ```sql
     CREATE TABLE student (
         id varchar(12) NOT NULL PRIMARY KEY,
         name varchar(6) NOT NULL,
@@ -90,7 +90,7 @@ skip-name-resolve
   - default-authentication-plugin=mysql_native_password
 
 ## MySQL配置文件
-```editorconfig
+```ini
 [client]
 port=3306
 default-character-set=utf8

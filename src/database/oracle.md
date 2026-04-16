@@ -20,7 +20,7 @@ tag:
     - SELECT "SUBSTR"('2019-08-15', 9, 2) FROM dual;
 
 ## IN
-```oracle
+```sql
 SELECT COL01, COL02, COL03
 FROM TEXT_TABLE
 WHERE "ID" IN ('10001', '10002', '10003');
@@ -41,7 +41,7 @@ FROM USER_TAB_COLUMNS WHERE TABLE_NAME='AMOS_USER';
 > - 表面意思是少右括号，但和MySQL不同，某些关键字也是需要处理的。
 > - 例如：`INTEGER (8)`是错的，正确写法是去掉长度 `(8)`，示例如下
 
-```oracle
+```sql
 CREATE TABLE "CODE_SEARCH" (
 	"ID" VARCHAR2 (32) NOT NULL,
 	"TYPE" INTEGER,
