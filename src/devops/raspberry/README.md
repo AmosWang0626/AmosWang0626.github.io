@@ -36,7 +36,8 @@ tag:
 
 ## 5. 设置固定 IP
 - 经过上一步，可以看下配置文件了 `/etc/sysconfig/network-scripts/ifcfg-amos.wang`
-- ![静态IP](https://gitee.com/AmosWang/resource/raw/master/image/raspberry-network-static.png)
+
+![静态IP](https://gitee.com/AmosWang/resource/raw/master/image/raspberry-network-static.png)
 
 ## 6. 扩展内存卡剩余空间
 - `/usr/bin/rootfs-expand`

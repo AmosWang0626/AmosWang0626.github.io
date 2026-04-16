@@ -43,11 +43,11 @@ yarn build
 
 ### 第一步：创建 Token
 
-![](assets/vuepress_github/github_vuepress_01.png)
+![](/vuepress_github/github_vuepress_01.png)
 
-![](assets/vuepress_github/github_vuepress_02.png)
+![](/vuepress_github/github_vuepress_02.png)
 
-![](assets/vuepress_github/github_vuepress_03.png)
+![](/vuepress_github/github_vuepress_03.png)
 
 ### 第二步：创建项目变量
 
@@ -55,15 +55,15 @@ yarn build
 
 名字就取 ACCESS_TOKEN ，值就是上一步生成的密钥。
 
-![](assets/vuepress_github/github_vuepress_04.png)
+![](/vuepress_github/github_vuepress_04.png)
 
 ### 第三步：创建流水线，自动化打包发布
 
-![](assets/vuepress_github/github_vuepress_05.png)
+![](/vuepress_github/github_vuepress_05.png)
 
 这里前端项目是 node.js 技术栈，就搜索 node 了
 
-![](assets/vuepress_github/github_vuepress_06.png)
+![](/vuepress_github/github_vuepress_06.png)
 
 ```
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
@@ -107,7 +107,7 @@ jobs:
 
 相比自动生成的，只改了这些地方。
 
-![](assets/vuepress_github/github_vuepress_07.png)
+![](/vuepress_github/github_vuepress_07.png)
 
 保存之后，就会自己自动化部署了。
 
@@ -115,15 +115,15 @@ jobs:
 
 ### 第四步：切换分支，自动化部署
 
-![](assets/vuepress_github/github_vuepress_08.png)
+![](/vuepress_github/github_vuepress_08.png)
 
-![](assets/vuepress_github/github_vuepress_09.png)
+![](/vuepress_github/github_vuepress_09.png)
 
 进入 Actions 查看进度，等 deploy 完成就能访问了。
 
 刷新浏览器，可能有几秒缓存，不慌，多刷几次就好了。
 
-![](assets/vuepress_github/github_vuepress_10.png)
+![](/vuepress_github/github_vuepress_10.png)
 
 ## 相关问题：
 
@@ -138,7 +138,7 @@ jobs:
 
 ### Invalid username or password.
 
-![](assets/vuepress_github/github_vuepress_11.png)
+![](/vuepress_github/github_vuepress_11.png)
 
 这种就是 token 更新了，需要换下 ACCESS_TOKEN 的值。
 
@@ -152,4 +152,4 @@ jobs:
 -   但默认不配置 base 的时候，是直接在根域名下访问静态文件的，xxx.github.io/assets/xxx.css 这种。
 -   配置base的时候，两端的 / 不能少哦。
 
-![](assets/vuepress_github/github_vuepress_12.png)
+![](/vuepress_github/github_vuepress_12.png)

@@ -1,6 +1,7 @@
 ---
 title: 自动更新博客
 date: 2020-05-23
+icon: gears
 category:
   - 我的想法
 tag:

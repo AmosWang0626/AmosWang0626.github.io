@@ -172,7 +172,7 @@ networks:
 
 - docker-compose
   - docker-compose -h|--help
-  - docker-compose [-f <arg>...] [options] [COMMAND] [ARGS...]
+  - docker-compose [-f `<arg>`...] [options] [COMMAND] [ARGS...]
     - -f, --file FILE            Specify an alternate compose file (default: docker-compose.yml)
     - -p, --project-name NAME    Specify an alternate project name
 
