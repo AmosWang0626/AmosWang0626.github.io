@@ -2,6 +2,7 @@
 title: 我的想法
 date: 2018-01-01
 index: false
+article: false
 ---
 
 # 被你发现了

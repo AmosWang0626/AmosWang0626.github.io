@@ -2,6 +2,7 @@
 title: 此地无银三百两
 date: 2018-01-01
 index: false
+article: false
 category:
   - 我的想法
 ---

@@ -2,6 +2,7 @@
 title: 压测工具
 date: 2018-01-01
 index: false
+article: false
 ---
 
 # 压测工具

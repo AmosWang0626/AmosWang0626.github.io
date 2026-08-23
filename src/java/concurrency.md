@@ -1,6 +1,7 @@
 ---
 title: Java并发编程实战
 index: false
+article: false
 icon: sync
 category:
   - Java并发编程

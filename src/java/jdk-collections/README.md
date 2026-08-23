@@ -1,6 +1,7 @@
 ---
 title: JDK集合源码分析
 index: false
+article: false
 icon: laptop-code
 category:
   - JDK集合源码

@@ -1,6 +1,7 @@
 ---
 title: JDK并发编程详解
 index: false
+article: false
 icon: laptop-code
 category:
   - JDK并发编程
